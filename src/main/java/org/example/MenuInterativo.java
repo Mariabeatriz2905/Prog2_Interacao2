@@ -194,8 +194,24 @@ public class MenuInterativo {
             System.out.println("A voltar para o menu...");
             menu();
         }
-        System.out.println("Digite o nome do paciente ou digite 0 para serem considerados todos os pacientes: ");
-        String paciente = scanner.next();
+
+        ArrayList<Paciente> pacientes = new ArrayList<>();
+        String nomePaciente = "-1";
+        while (!nomePaciente.equals("0")){
+            nomePaciente = "";
+            System.out.println("Insira o nome do paciente (0 para continuar): ");
+            nomePaciente = scanner.next();
+            if (nomePaciente.equals("0")){
+                break;
+            }
+            Pessoa paciente = sistema.encontrarPessoa(nomePaciente, "paciente");
+            Paciente paciente1 = ((Paciente) paciente);
+            pacientes.add(paciente1);
+        }
+        if (pacientes.isEmpty()){
+            pacientes=sistema.getPacientes();
+        }
+
         System.out.println("Filtrar por periodo: ");
         System.out.println("Digite a data inicial (mais antiga) no formato aaaa/mm/dd ou digite 0 para serem consideradas todas as datas disponíveis: ");
         String input=scanner.next();
@@ -216,92 +232,67 @@ public class MenuInterativo {
 
         switch (escolha){
             case 1:
-                if (paciente.equals("0")){
-                    int maxFQ=0;
-                    int maxO2=0;
-                    int maxC=0;
-                    for (Paciente p : sistema.getPacientes()){
-                        maxFQ= (int) Math.max(maxFQ,p.getFrequenciaCardiaca().calcularMaximo(dataInicial,dataFim));
-                        maxO2= (int) Math.max(maxO2,p.getSaturacaoDeOxigenio().calcularMaximo(dataInicial,dataFim));
-                        maxC = (int) Math.max(maxC,p.getTemperatura().calcularMaximo(dataInicial,dataFim));
-                    }
-                    System.out.print("Máximo da fc: " + maxFQ);
-                    System.out.print("\nMáximo da O2: " + maxO2);
-                    System.out.print("\nMáximo da Temperatura: " + maxC);
+                int maxFQ=0;
+                int maxO2=0;
+                int maxC=0;
+                for (Paciente p : pacientes){
+                    maxFQ= (int) Math.max(maxFQ,p.getFrequenciaCardiaca().calcularMaximo(dataInicial,dataFim));
+                    maxO2= (int) Math.max(maxO2,p.getSaturacaoDeOxigenio().calcularMaximo(dataInicial,dataFim));
+                    maxC = (int) Math.max(maxC,p.getTemperatura().calcularMaximo(dataInicial,dataFim));
                 }
-                else {
-                    System.out.println("Máximo da fc: " + ((Paciente) sistema.encontrarPessoa(paciente,"paciente")).getFrequenciaCardiaca().calcularMaximo(dataInicial,dataFim));
-                    System.out.println("Máximo de O2: " + ((Paciente) sistema.encontrarPessoa(paciente,"paciente")).getSaturacaoDeOxigenio().calcularMaximo(dataInicial,dataFim));
-                    System.out.println("Máximo de temperatura: " + ((Paciente) sistema.encontrarPessoa(paciente,"paciente")).getTemperatura().calcularMaximo(dataInicial,dataFim));
+                System.out.print("Máximo da fc: " + maxFQ);
+                System.out.print("\nMáximo da O2: " + maxO2);
+                System.out.print("\nMáximo da Temperatura: " + maxC);
 
-                }
                 calcularEstatisticas();
                 break;
             case 2:
-                if (paciente.equals("0")){
-                    int minFQ=181;
-                    int minO2=101;
-                    int minC=44;
-                    for (Paciente p : sistema.getPacientes()){
-                        minFQ= (int) Math.min(minFQ,p.getFrequenciaCardiaca().calcularMinimo(dataInicial,dataFim));
-                        minO2= (int) Math.min(minO2,p.getSaturacaoDeOxigenio().calcularMinimo(dataInicial,dataFim));
-                        minC = (int) Math.min(minC,p.getTemperatura().calcularMinimo(dataInicial,dataFim));
-                    }
-                    System.out.print("Mínimo da fc: " + minFQ);
-                    System.out.print("\nMínimo da O2: " + minO2);
-                    System.out.print("\nMínimo da Temperatura: " + minC);
-                }
-                else {
-                    System.out.println("Mínimo de fc: " + ((Paciente) sistema.encontrarPessoa(paciente,"paciente")).getFrequenciaCardiaca().calcularMinimo(dataInicial,dataFim));
-                    System.out.println("Mínimo de O2: " + ((Paciente) sistema.encontrarPessoa(paciente,"paciente")).getSaturacaoDeOxigenio().calcularMinimo(dataInicial,dataFim));
-                    System.out.println("Mínimo de Temperatura: " + ((Paciente) sistema.encontrarPessoa(paciente,"paciente")).getTemperatura().calcularMinimo(dataInicial,dataFim));
 
+                int minFQ=181;
+                int minO2=101;
+                int minC=44;
+                for (Paciente p : sistema.getPacientes()){
+                    minFQ= (int) Math.min(minFQ,p.getFrequenciaCardiaca().calcularMinimo(dataInicial,dataFim));
+                    minO2= (int) Math.min(minO2,p.getSaturacaoDeOxigenio().calcularMinimo(dataInicial,dataFim));
+                    minC = (int) Math.min(minC,p.getTemperatura().calcularMinimo(dataInicial,dataFim));
                 }
+                System.out.print("Mínimo da fc: " + minFQ);
+                System.out.print("\nMínimo da O2: " + minO2);
+                System.out.print("\nMínimo da Temperatura: " + minC);
+
                 calcularEstatisticas();
                 break;
             case 3:
-                if (paciente.equals("0")){
-                    FrequenciaCardiaca fcs = new FrequenciaCardiaca();
-                    SaturacaoDeOxigenio o2s = new SaturacaoDeOxigenio();
-                    Temperatura ts = new Temperatura();
 
-                    for (Paciente p : sistema.getPacientes()){
-                        fcs.adicionar(p.getFrequenciaCardiaca());
-                        o2s.adicionar(p.getSaturacaoDeOxigenio());
-                        ts.adicionar(p.getTemperatura());
-                    }
-                    System.out.println("Desvio padrão da fc: " + fcs.calcularDesvioPadrao(dataInicial,dataFim));
-                    System.out.println("Desvio padrão de O2: " + o2s.calcularDesvioPadrao(dataInicial,dataFim));
-                    System.out.println("Desvio padrão da temperatura: " + ts.calcularDesvioPadrao(dataInicial,dataFim));
-                }
-                else {
-                    System.out.println("Desvio padrão da fc: " + ((Paciente) sistema.encontrarPessoa(paciente,"paciente")).getFrequenciaCardiaca().calcularDesvioPadrao(dataInicial,dataFim));
-                    System.out.println("Desvio padrão de O2: " + ((Paciente) sistema.encontrarPessoa(paciente,"paciente")).getSaturacaoDeOxigenio().calcularDesvioPadrao(dataInicial,dataFim));
-                    System.out.println("Desvio padrão da temperatura: " + ((Paciente) sistema.encontrarPessoa(paciente,"paciente")).getTemperatura().calcularDesvioPadrao(dataInicial,dataFim));
+                FrequenciaCardiaca fcs = new FrequenciaCardiaca();
+                SaturacaoDeOxigenio o2s = new SaturacaoDeOxigenio();
+                Temperatura ts = new Temperatura();
 
+                for (Paciente p : sistema.getPacientes()){
+                    fcs.adicionar(p.getFrequenciaCardiaca());
+                    o2s.adicionar(p.getSaturacaoDeOxigenio());
+                    ts.adicionar(p.getTemperatura());
                 }
+                System.out.println("Desvio padrão da fc: " + fcs.calcularDesvioPadrao(dataInicial,dataFim));
+                System.out.println("Desvio padrão de O2: " + o2s.calcularDesvioPadrao(dataInicial,dataFim));
+                System.out.println("Desvio padrão da temperatura: " + ts.calcularDesvioPadrao(dataInicial,dataFim));
+
                 calcularEstatisticas();
                 break;
             case 4:
-                if (paciente.equals("0")){
-                    FrequenciaCardiaca fcs = new FrequenciaCardiaca();
-                    SaturacaoDeOxigenio o2s = new SaturacaoDeOxigenio();
-                    Temperatura ts = new Temperatura();
+                FrequenciaCardiaca fcs2 = new FrequenciaCardiaca();
+                SaturacaoDeOxigenio o2s2 = new SaturacaoDeOxigenio();
+                Temperatura ts2 = new Temperatura();
 
-                    for (Paciente p : sistema.getPacientes()){
-                        fcs.adicionar(p.getFrequenciaCardiaca());
-                        o2s.adicionar(p.getSaturacaoDeOxigenio());
-                        ts.adicionar(p.getTemperatura());
-                    }
-                    System.out.println("Média da fc: " + fcs.calcularMedia(dataInicial,dataFim));
-                    System.out.println("Média de O2: " + o2s.calcularMedia(dataInicial,dataFim));
-                    System.out.println("Média da Temperatura: " + ts.calcularMedia(dataInicial,dataFim));
+                for (Paciente p : sistema.getPacientes()){
+                    fcs2.adicionar(p.getFrequenciaCardiaca());
+                    o2s2.adicionar(p.getSaturacaoDeOxigenio());
+                    ts2.adicionar(p.getTemperatura());
                 }
-                else {
-                    System.out.println("Média da fc: " + ((Paciente) sistema.encontrarPessoa(paciente,"paciente")).getFrequenciaCardiaca().calcularMedia(dataInicial,dataFim));
-                    System.out.println("Média de O2: " + ((Paciente) sistema.encontrarPessoa(paciente,"paciente")).getSaturacaoDeOxigenio().calcularMedia(dataInicial,dataFim));
-                    System.out.println("Média da Temperatura: " + ((Paciente) sistema.encontrarPessoa(paciente,"paciente")).getTemperatura().calcularMedia(dataInicial,dataFim));
-                }
+                System.out.println("Média da fc: " + fcs2.calcularMedia(dataInicial,dataFim));
+                System.out.println("Média de O2: " + o2s2.calcularMedia(dataInicial,dataFim));
+                System.out.println("Média da Temperatura: " + ts2.calcularMedia(dataInicial,dataFim));
+
                 calcularEstatisticas();
                 break;
             case 5:
@@ -381,10 +372,11 @@ public class MenuInterativo {
             case 1:
                 ArrayList<Paciente> pacientes = new ArrayList<>();
                 String nomePaciente = "-1";
-                while (true){
-                    System.out.println("Insira o nome do paciente: ");
+                while (!nomePaciente.equals("0")){
+                    nomePaciente = "";
+                    System.out.println("Insira o nome do paciente (0 para continuar): ");
                     nomePaciente = scanner.next();
-                    if (nomePaciente.isEmpty()){
+                    if (nomePaciente.equals("0")){
                         break;
                     }
                     Pessoa paciente = sistema.encontrarPessoa(nomePaciente, "paciente");
