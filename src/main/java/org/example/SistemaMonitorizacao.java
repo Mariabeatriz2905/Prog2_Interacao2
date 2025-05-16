@@ -4,14 +4,20 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class SistemaMonitorizacao {
-    private ArrayList<Pessoa> pessoas;
+    private ArrayList<Paciente> pacientes;
+    private ArrayList<TecnicoDeSaude> tecnicos;
 
     /**
      * Construtor da classe que será utilizado para inicializar os objetos quando a classe SistemaMonitorizacao for instanciada.
      * É também criada uma nova instância de um ArrayList vazio que será usado para armazenar objetos do tipo Pessoa.
      */
     public SistemaMonitorizacao() {
-        this.pessoas = new ArrayList<Pessoa>();
+        this.pacientes = new ArrayList<Paciente>();
+        this.tecnicos = new ArrayList<TecnicoDeSaude>();
+    }
+    public SistemaMonitorizacao(ArrayList<Paciente> pacientes, ArrayList<TecnicoDeSaude> tecnicos) {
+        this.pacientes = pacientes;
+        this.tecnicos = tecnicos;
     }
 
     /**
@@ -22,13 +28,7 @@ public class SistemaMonitorizacao {
      * @return é devolvida uma lista que contém objetos do tipo Paciente, ordenados por data de nascimento
      */
     public ArrayList<Paciente> getPacientes (){
-        ArrayList<Paciente> pacientes= new ArrayList<>();
-        for(Pessoa p: pessoas){
-            if(p instanceof Paciente){
-                pacientes.add((Paciente) p);
-            }
-        }
-        pacientes.sort(new Comparator<Paciente>() {
+        this.pacientes.sort(new Comparator<Paciente>() {
             public int compare(Paciente p1, Paciente p2) {
                 return Integer.compare(p1.getDataNascimento().getValue(), p2.getDataNascimento().getValue());
             }
@@ -36,6 +36,13 @@ public class SistemaMonitorizacao {
         return pacientes;
     }
 
+    public void adicionarPessoa(Pessoa p) {
+        if (p instanceof Paciente) {
+            this.pacientes.add((Paciente) p);
+        }else if (p instanceof TecnicoDeSaude) {
+            this.tecnicos.add((TecnicoDeSaude) p);
+        }
+    }
 
     /**
      * Método de acesso, é utilizado para filtrar e organizar uma lista de objetos do tipo TecnicoDeSaude
@@ -44,14 +51,8 @@ public class SistemaMonitorizacao {
      * @return devolve os tecnicos encontrados
      */
     public ArrayList<TecnicoDeSaude> getTecnicosDeSaude (){
-        ArrayList<TecnicoDeSaude> tecnicos= new ArrayList<>();
-        for(Pessoa p: pessoas){
-            if(p instanceof TecnicoDeSaude){
-                tecnicos.add((TecnicoDeSaude) p);
-            }
-        }
         // Ordena alfabeticamente pelo nome
-        tecnicos.sort(new Comparator<TecnicoDeSaude>() {
+        this.tecnicos.sort(new Comparator<TecnicoDeSaude>() {
             public int compare(TecnicoDeSaude t1, TecnicoDeSaude t2) {
                 return t1.getNome().compareTo(t2.getNome());
             }
@@ -60,28 +61,31 @@ public class SistemaMonitorizacao {
     }
 
     /**
-     * Este método permite a adição de objetos do tipo pessoa ao arrayList pessoas.
-     * @param p objeto passado por parâmetroque vai ser adicionado ao arrayList
+     *O método percorre o arrayList pacientes e procura um objeto do tipo Paciente que tenha o nome especificado pelo parâmetro nome e seja do tipo Paciente
+     * @param nome da pessoa que pretendemos encontrar no arrayList
+     * @return devolve o objeto encontrado ou indica que não encontrou nenhum objeto
      */
-    public void adicionarPessoas (Pessoa p){
-        pessoas.add(p);
+    public Paciente encontrarPaciente(String nome) {
+        for (Paciente p: this.pacientes) {
+            if (p.getNome().equals(nome)){
+                return p;
+            }
+
+        }
+        return null;
     }
 
     /**
-     *O método percorre o arrayList pessoas e procura um objeto do tipo Pessoa que tenha o nome especificado pelo parâmetro nome e seja do tipo Paciente e tenha o cargo "paciente", ou seja do tipo TecnicoDeSaude e tenha o cargo "tecnico".
+     *O método percorre o arrayList tecnicos e procura um objeto do tipo TecnicoDeSaude que tenha o nome especificado pelo parâmetro nome
      * @param nome da pessoa que pretendemos encontrar no arrayList
-     * @param cargo que corresponde ao nome
      * @return devolve o objeto encontrado ou indica que não encontrou nenhum objeto
      */
-    public Pessoa encontrarPessoa(String nome, String cargo) {
-        for (Pessoa p: pessoas) {
-            if (p.getNome().equals(nome)){
-                if (p instanceof Paciente && cargo=="paciente"){
-                    return p;
-                }else if (p instanceof TecnicoDeSaude && cargo=="tecnico"){
-                    return p;
-                }
+    public TecnicoDeSaude encontrarTecnico(String nome) {
+        for (TecnicoDeSaude t: this.tecnicos) {
+            if (t.getNome().equals(nome)){
+                return t;
             }
+
         }
         return null;
     }
