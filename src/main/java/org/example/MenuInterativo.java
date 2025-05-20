@@ -89,35 +89,65 @@ public class MenuInterativo {
         if (escolha==1){
             System.out.print("Insira bpm: ");
             int bpm = scanner.nextInt();
+            String asteriscosBPM;
             while (bpm <30 || bpm > 180) {
                 System.out.println("\nValor de frequência cardíaca inválido! Digite um valor de frequência cardíaca válido:");
                 bpm = scanner.nextInt();
             }
+            if (bpm >= 60 && bpm <= 100) {
+                asteriscosBPM = "***";
+            } else {
+                if (bpm > 100 && bpm<= 120) {
+                    asteriscosBPM = "******";
+                } else {
+                    asteriscosBPM = "*********";
+                }
+            }
             ((Paciente) paciente).adicionarMedicao(new FrequenciaCardiaca(bpm,dataColheita, (TecnicoDeSaude) tecnicoDeSaude));
             System.out.print("Medição adicionada com sucesso!");
-            System.out.println("\n Nome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "BPM: " + bpm);
+            System.out.println("\n Nome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "BPM: " + bpm + "Gráfico de Barras" + asteriscosBPM);
 
         }else if (escolha==2){
             System.out.print("Insira saturaçao de oxigenio: ");
             int saturacao = scanner.nextInt();
+            String asteriscosSO;
             while (saturacao <80 || saturacao > 100) {
                 System.out.println("\nValor de saturação de oxigénio inválido! Digite um valor de saturação de oxigénio válido:");
                 saturacao = scanner.nextInt();
             }
+            if (saturacao >= 95) {
+                asteriscosSO = "***";
+            } else {
+                if (saturacao > 90 && saturacao <95) {
+                    asteriscosSO = "******";
+                } else {
+                    asteriscosSO = "*********";
+                }
+            }
             ((Paciente) paciente).adicionarMedicao(new SaturacaoDeOxigenio(saturacao,dataColheita, (TecnicoDeSaude) tecnicoDeSaude));
             System.out.print("Medição adicionada com sucesso!");
-            System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "S02: " + saturacao);
+            System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "S02: " + saturacao + "Gráfico de Barras" + asteriscosSO);
 
         }else{
             System.out.println("Insira temperatura: ");
             double temperatura = scanner.nextDouble();
+            String asteriscosTMP;
             while (temperatura <25 || temperatura > 43) {
                 System.out.println("\nValor de temperatura inválido! Digite um valor de temperatura válido:");
                 temperatura = scanner.nextDouble();
             }
+            if (temperatura >= 36 && temperatura <= 37.5) {
+                asteriscosTMP = "***";
+            } else {
+                if (temperatura > 37.5 && temperatura <= 38.5) {
+                    asteriscosTMP = "******";
+                } else {
+                    asteriscosTMP = "*********";
+                }
+            }
             ((Paciente) paciente).adicionarMedicao(new Temperatura(temperatura,dataColheita, (TecnicoDeSaude) tecnicoDeSaude));
             System.out.print("Medição adicionada com sucesso!");
-            System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "Temperatura: " + temperatura);
+            System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "Temperatura: " + temperatura + "Gráfico de Barras" + asteriscosTMP);
         }
         menu();
     }
