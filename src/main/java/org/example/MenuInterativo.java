@@ -3,32 +3,32 @@ package org.example;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Classe responsável pela interação com o usuário através de menus
+ */
 public class MenuInterativo {
-    static Scanner scanner = new Scanner(System.in);
-    static SistemaMonitorizacao sistema = new SistemaMonitorizacao();
+    private Scanner scanner;
+    private MenuGerenciador gerenciador;
+
+    /**
+     * Construtor que inicializa o scanner e o gerenciador de menu
+     */
+    public MenuInterativo() {
+        this.scanner = new Scanner(System.in);
+        SistemaMonitorizacao sistema = new SistemaMonitorizacao();
+        this.gerenciador = new MenuGerenciador(sistema);
+    }
 
     /**
      * Menu principal que define as funcionalidades que o programa executa.
-     * Connsoante o número introduzido, são chamados os diferentes métodos presentes.
+     * Consoante o número introduzido, são chamados os diferentes métodos presentes.
      */
-    public static void menu() {
+    public void menu() {
         int escolha;
         do {
-            System.out.println("\n=== MENU ===");
-            System.out.println("\n1. Adicionar Paciente");
-            System.out.println("2. Adicionar Medicao");
-            System.out.println("3. Adicionar Técnico");
-            System.out.println("4. Calcular Estatísticas");
-            System.out.println("5. Mostrar Pacientes");
-            System.out.println("6. Mostrar Tecnicos de Saúde");
-            System.out.println("7. Estado de paciente");
-            System.out.println("8. Sair");
-            System.out.print("Digite 1,2, 3, 4, 5, 6, 7 ou 8 consoante a funcionalidade que pretende usar:");
-            escolha = scanner.nextInt();
-            while (escolha != 1 && escolha != 2 && escolha != 3 && escolha != 4 && escolha != 5 && escolha != 6 && escolha != 7 && escolha != 8) {
-                System.out.println("\nNúmero inválido! Digite novamente o número da funcionalidade em questão:");
-                escolha = scanner.nextInt();
-            }
+            exibirMenuPrincipal();
+            escolha = lerOpcao(1, 8);
+            
             switch (escolha) {
                 case 1:
                     adicionarPaciente();
@@ -50,106 +50,134 @@ public class MenuInterativo {
                     break;
                 case 7:
                     estadoPaciente();
+                    break;
                 case 8:
                     System.out.print("A sair!");
                     break;
             }
-        }while (escolha != 8);
+        } while (escolha != 8);
+    }
+    
+    /**
+     * Exibe o menu principal
+     */
+    private void exibirMenuPrincipal() {
+        System.out.println("\n=== MENU ===");
+        System.out.println("\n1. Adicionar Paciente");
+        System.out.println("2. Adicionar Medicao");
+        System.out.println("3. Adicionar Técnico");
+        System.out.println("4. Calcular Estatísticas");
+        System.out.println("5. Mostrar Pacientes");
+        System.out.println("6. Mostrar Tecnicos de Saúde");
+        System.out.println("7. Estado de paciente");
+        System.out.println("8. Sair");
+        System.out.print("Digite 1,2, 3, 4, 5, 6, 7 ou 8 consoante a funcionalidade que pretende usar: ");
+    }
+    
+    /**
+     * Lê uma opção do usuário dentro de um intervalo válido
+     * @param min valor mínimo válido
+     * @param max valor máximo válido
+     * @return opção escolhida pelo usuário
+     */
+    private int lerOpcao(int min, int max) {
+        int opcao = scanner.nextInt();
+        while (opcao < min || opcao > max) {
+            System.out.println("\nNúmero inválido! Digite novamente o número da funcionalidade em questão:");
+            opcao = scanner.nextInt();
+        }
+        return opcao;
     }
 
     /**
      * Este método permite adicionar uma medição de frequência cardíaca, saturação de oxigénio e temperatura,
-     consoante o dígito introduzido.
-     * Após a introdução do nome do paciente e do nome do técnico, são devolvidos os dois objetos do tipo
-     pessoa através do método encontrarPessoa presente na classe SistemaMonitorizacao.
-     * Depois da introdução do valor da medida pretendida, através do método adicionarMedicao presente na
-     classe Paciente, o programa cria uma instância do tipo da medida selecionada com os parâmetros: valor
-     numérico que representa a medida, a data da colheita e um objeto da classe TecnicoDeSaude. Para garantir
-     que os objetos são do tipo correto, é feito um casting.
+     * consoante o dígito introduzido.
      */
-    private static void adicionarMedicao() {
+    private void adicionarMedicao() {
         System.out.println("Qual a medicao que deseja adicionar: ");
         System.out.println("1. Frequencia Cardiaca:");
         System.out.println("2. Saturação de Oxigénio: ");
         System.out.println("3. Temperatura:");
-        int escolha = scanner.nextInt();
-        while (escolha != 1 && escolha != 2 && escolha != 3) {
-            System.out.println("\nNúmero inválido! Digite novamente o número da medição em questão:");
-            escolha = scanner.nextInt();
-        }
+        int escolha = lerOpcao(1, 3);
+        
         System.out.println("Introduza o nome do técnico:");
         String nomeTecnico = scanner.next();
         System.out.println("Introduza o nome do Paciente:");
         String nomePaciente = scanner.next();
-        TecnicoDeSaude tecnicoDeSaude = sistema.encontrarTecnico(nomeTecnico);
-        Paciente paciente = sistema.encontrarPaciente(nomePaciente);
+        
+        TecnicoDeSaude tecnicoDeSaude = gerenciador.encontrarTecnico(nomeTecnico);
+        Paciente paciente = gerenciador.encontrarPaciente(nomePaciente);
+        
+        if (tecnicoDeSaude == null || paciente == null) {
+            System.out.println("Técnico ou paciente não encontrado!");
+            return;
+        }
+        
         System.out.print("Data de colheita (aaaa/mm/dd): ");
         String dataColheita = scanner.next();
 
-        if (escolha==1){
-            System.out.print("Insira bpm: ");
-            int bpm = scanner.nextInt();
-            String asteriscosBPM;
-            while (bpm <30 || bpm > 180) {
-                System.out.println("\nValor de frequência cardíaca inválido! Digite um valor de frequência cardíaca válido:");
-                bpm = scanner.nextInt();
-            }
-            if (bpm >= 60 && bpm <= 100) {
-                asteriscosBPM = "***";
-            } else {
-                if (bpm > 100 && bpm<= 120) {
-                    asteriscosBPM = "******";
-                } else {
-                    asteriscosBPM = "*********";
-                }
-            }
-            ((Paciente) paciente).adicionarMedicao(new FrequenciaCardiaca(bpm,dataColheita, (TecnicoDeSaude) tecnicoDeSaude));
-            System.out.print("Medição adicionada com sucesso!");
-            System.out.println("\n Nome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "BPM: " + bpm + "Gráfico de Barras" + asteriscosBPM);
-
-        }else if (escolha==2){
-            System.out.print("Insira saturaçao de oxigenio: ");
-            int saturacao = scanner.nextInt();
-            String asteriscosSO;
-            while (saturacao <80 || saturacao > 100) {
-                System.out.println("\nValor de saturação de oxigénio inválido! Digite um valor de saturação de oxigénio válido:");
-                saturacao = scanner.nextInt();
-            }
-            if (saturacao >= 95) {
-                asteriscosSO = "***";
-            } else {
-                if (saturacao > 90 && saturacao <95) {
-                    asteriscosSO = "******";
-                } else {
-                    asteriscosSO = "*********";
-                }
-            }
-            ((Paciente) paciente).adicionarMedicao(new SaturacaoDeOxigenio(saturacao,dataColheita, (TecnicoDeSaude) tecnicoDeSaude));
-            System.out.print("Medição adicionada com sucesso!");
-            System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "S02: " + saturacao + "Gráfico de Barras" + asteriscosSO);
-
-        }else{
-            System.out.println("Insira temperatura: ");
-            double temperatura = scanner.nextDouble();
-            String asteriscosTMP;
-            while (temperatura <25 || temperatura > 43) {
-                System.out.println("\nValor de temperatura inválido! Digite um valor de temperatura válido:");
-                temperatura = scanner.nextDouble();
-            }
-            if (temperatura >= 36 && temperatura <= 37.5) {
-                asteriscosTMP = "***";
-            } else {
-                if (temperatura > 37.5 && temperatura <= 38.5) {
-                    asteriscosTMP = "******";
-                } else {
-                    asteriscosTMP = "*********";
-                }
-            }
-            ((Paciente) paciente).adicionarMedicao(new Temperatura(temperatura,dataColheita, (TecnicoDeSaude) tecnicoDeSaude));
-            System.out.print("Medição adicionada com sucesso!");
-            System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "Temperatura: " + temperatura + "Gráfico de Barras" + asteriscosTMP);
+        switch (escolha) {
+            case 1:
+                adicionarFrequenciaCardiaca(paciente, tecnicoDeSaude, dataColheita, nomePaciente, nomeTecnico);
+                break;
+            case 2:
+                adicionarSaturacaoOxigenio(paciente, tecnicoDeSaude, dataColheita, nomePaciente, nomeTecnico);
+                break;
+            case 3:
+                adicionarTemperatura(paciente, tecnicoDeSaude, dataColheita, nomePaciente, nomeTecnico);
+                break;
         }
-        menu();
+    }
+    
+    /**
+     * Adiciona uma medição de frequência cardíaca
+     */
+    private void adicionarFrequenciaCardiaca(Paciente paciente, TecnicoDeSaude tecnico, String dataColheita, 
+                                           String nomePaciente, String nomeTecnico) {
+        System.out.print("Insira bpm: ");
+        int bpm = scanner.nextInt();
+        while (bpm < 30 || bpm > 180) {
+            System.out.println("\nValor de frequência cardíaca inválido! Digite um valor de frequência cardíaca válido:");
+            bpm = scanner.nextInt();
+        }
+        
+        paciente.adicionarFrequenciaCardiaca(bpm, dataColheita, tecnico);
+        System.out.print("Medição adicionada com sucesso!");
+        System.out.println("\n Nome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "BPM: " + bpm);
+    }
+    
+    /**
+     * Adiciona uma medição de saturação de oxigênio
+     */
+    private void adicionarSaturacaoOxigenio(Paciente paciente, TecnicoDeSaude tecnico, String dataColheita, 
+                                          String nomePaciente, String nomeTecnico) {
+        System.out.print("Insira saturaçao de oxigenio: ");
+        int saturacao = scanner.nextInt();
+        while (saturacao < 80 || saturacao > 100) {
+            System.out.println("\nValor de saturação de oxigénio inválido! Digite um valor de saturação de oxigénio válido:");
+            saturacao = scanner.nextInt();
+        }
+        
+        paciente.adicionarSaturacaoDeOxigenio(saturacao, dataColheita, tecnico);
+        System.out.print("Medição adicionada com sucesso!");
+        System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "S02: " + saturacao);
+    }
+    
+    /**
+     * Adiciona uma medição de temperatura
+     */
+    private void adicionarTemperatura(Paciente paciente, TecnicoDeSaude tecnico, String dataColheita, 
+                                    String nomePaciente, String nomeTecnico) {
+        System.out.println("Insira temperatura: ");
+        double temperatura = scanner.nextDouble();
+        while (temperatura < 25 || temperatura > 43) {
+            System.out.println("\nValor de temperatura inválido! Digite um valor de temperatura válido:");
+            temperatura = scanner.nextDouble();
+        }
+        
+        paciente.adicionarTemperatura(temperatura, dataColheita, tecnico);
+        System.out.print("Medição adicionada com sucesso!");
+        System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "Temperatura: " + temperatura);
     }
 
     /**
@@ -158,7 +186,7 @@ public class MenuInterativo {
      * Este objeto é adicionado ao arrayList pessoas através do método adicionarPessoas que se encontra na classe SistemaMonitorizacao.
      * Por fim, é exibida uma mensagem de confirmação e é chamado o método menu para que o utilizador possa realizar outras operações.
      */
-    public static void adicionarPaciente(){
+    private void adicionarPaciente() {
         System.out.print("Nome: ");
         String nome = scanner.next();
 
@@ -171,16 +199,14 @@ public class MenuInterativo {
         System.out.print("Peso (kg): ");
         int peso = scanner.nextInt();
 
-        Paciente p = new Paciente(nome, dataNascimento, altura, peso);
-        sistema.adicionarPessoa(p);
+        gerenciador.adicionarPaciente(nome, dataNascimento, altura, peso);
         System.out.println("Paciente adicionado com sucesso!");
-        menu();
     }
 
     /**
      * Este método funciona da mesma forma que o método adicionarPaciente
      */
-    public static void adicionarTecnico() {
+    private void adicionarTecnico() {
         System.out.print("Nome: ");
         String nomeTecnico = scanner.next();
 
@@ -190,292 +216,146 @@ public class MenuInterativo {
         System.out.print("Categoria Profissional: ");
         String categoriaProfissional = scanner.next();
 
-        TecnicoDeSaude t = new TecnicoDeSaude(nomeTecnico, dataNascimentoTecnico, categoriaProfissional);
-        sistema.adicionarPessoa(t);
+        gerenciador.adicionarTecnico(nomeTecnico, dataNascimentoTecnico, categoriaProfissional);
         System.out.println("Técnico adicionado com sucesso!");
-        menu();
     }
-
     /**
-     *Este método permite calcular medidas estatísticas para pacientes com base em suas informações vitais, como frequência cardíaca, saturação de oxigênio e temperatura.
-     * O utilizador escolhe a medida que deseja calcular, além de escolher um paciente ou todos os pacientes (caso introduza o valor 0) e filtrar por datas.
-     * O método usa um switch-case para processar a escolha do utilizador.
-     * No cálculo do máximo e do mínimo, se o usuário escolher "0" (todos os pacientes), são percorridos todos os pacientes e faz-se o cálculo de cada sinal vital dentro do período fornecido.
-     * Se especificar um paciente, faz o cálculo do cada sinal vital para esse paciente.
-     *No caso do desvio padrao, para todos os pacientes, o método adiciona os dados de cada paciente a objetos correspondentes e calcula o desvio padrão.
-     * Para um paciente específico, é calculado diretamente o desvio padrão.
-     * No caso da média, para todos os pacientes, são adicionadas as medições de cada paciente para calcular a média.
-     * Para um paciente específico, é calculada diretamente a média.
-     * Por fim, depois do cálculo da medida desejada, é mostrado novamente o menu de calcularEstatisticas, para o utilizador poder selecionar outra ou, volta para o menu principal, caso o utilizador digite o número 5.
+     * Este método permite calcular medidas estatísticas para pacientes com base em suas informações vitais,
+     * como frequência cardíaca, saturação de oxigênio e temperatura.
      */
-    public static void calcularEstatisticas(){
-        System.out.println("Escolha a medida estatística: ");
-        System.out.println("1 - Máximo");
-        System.out.println("2 - Mínimo");
-        System.out.println("3 - Desvio Padrão");
-        System.out.println("4 - Média");
-        System.out.println("5 - Voltar para o menu");
-        int escolha = scanner.nextInt();
-        while (escolha != 1 && escolha != 2 && escolha != 3 && escolha != 4 && escolha != 5) {
-            System.out.println("\nNúmero inválido! Digite novamente o número da medida em questão:");
-            escolha = scanner.nextInt();
-        }
-        if (escolha == 5){
-            System.out.println("A voltar para o menu...");
-            menu();
-        }
-
-        ArrayList<Paciente> pacientes = new ArrayList<>();
-        String nomePaciente = "-1";
-        while (!nomePaciente.equals("0")){
-            nomePaciente = "";
-            System.out.println("Insira o nome do paciente (0 para continuar): ");
-            nomePaciente = scanner.next();
-            if (nomePaciente.equals("0")){
-                break;
-            }
-            Paciente paciente = sistema.encontrarPaciente(nomePaciente);
-            pacientes.add(paciente);
-        }
-        if (pacientes.isEmpty()){
-            pacientes=sistema.getPacientes();
-        }
-
-        System.out.println("Filtrar por periodo: ");
-        System.out.println("Digite a data inicial (mais antiga) no formato aaaa/mm/dd ou digite 0 para serem consideradas todas as datas disponíveis: ");
-        String input=scanner.next();
-        Data dataInicial;
-        if (input.equals("0")){
-            dataInicial=new Data(0);
-        }else {
-            dataInicial=new Data(input);
-        }
-        System.out.println("Digite a data final (mais recente) no formato aaaa/mm/dd ou digite 0 para serem consideradas todas as datas disponíveis: ");
-        input=scanner.next();
-        Data dataFim;
-        if (input.equals("0")){
-            dataFim=new Data(0);
-        }else {
-            dataFim=new Data(input);
-        }
-        Paciente temp=new Paciente("cumulative","1111/11/1",0,0);;
-        switch (escolha){
-            case 1:
-                for (Paciente p : pacientes){
-                    System.out.println("\n"+p.getNome());
-                    int maxFQ= (int) p.getFrequenciaCardiaca().calcularMaximo(dataInicial,dataFim);
-                    System.out.print("Máximo da fc: " + maxFQ);
-                    int maxO2= (int) p.getSaturacaoDeOxigenio().calcularMaximo(dataInicial,dataFim);
-                    System.out.print("\nMáximo da O2: " + maxO2);
-                    int maxC = (int) p.getTemperatura().calcularMaximo(dataInicial,dataFim);
-                    System.out.println("\nMáximo da Temperatura: " + maxC);
-
-                    temp.adicionarMedicao(p.getFrequenciaCardiaca());
-                    temp.adicionarMedicao(p.getSaturacaoDeOxigenio());
-                    temp.adicionarMedicao(p.getTemperatura());
-                }
-                System.out.println("\nMaximo de todos os pacientes: ");
-                int maxFQ= (int) temp.getFrequenciaCardiaca().calcularMaximo(dataInicial,dataFim);
-                System.out.print("Máximo da fc: " + maxFQ);
-                int maxO2= (int) temp.getSaturacaoDeOxigenio().calcularMaximo(dataInicial,dataFim);
-                System.out.print("\nMáximo da O2: " + maxO2);
-                int maxC = (int) temp.getTemperatura().calcularMaximo(dataInicial,dataFim);
-                System.out.println("\nMáximo da Temperatura: " + maxC);
-
-                calcularEstatisticas();
-                break;
-            case 2:
-
-                for (Paciente p : pacientes){
-                    System.out.println("\n"+p.getNome());
-                    int minFQ= (int) p.getFrequenciaCardiaca().calcularMinimo(dataInicial,dataFim);
-                    System.out.print("Máximo da fc: " + minFQ);
-                    int minO2= (int) p.getSaturacaoDeOxigenio().calcularMinimo(dataInicial,dataFim);
-                    System.out.print("\nMáximo da O2: " + minO2);
-                    int minC = (int) p.getTemperatura().calcularMinimo(dataInicial,dataFim);
-                    System.out.println("\nMáximo da Temperatura: " + minC);
-
-                    temp.adicionarMedicao(p.getFrequenciaCardiaca());
-                    temp.adicionarMedicao(p.getSaturacaoDeOxigenio());
-                    temp.adicionarMedicao(p.getTemperatura());
-                }
-                System.out.println("\nMinimo de todos os pacientes: ");
-                int minFQ= (int) temp.getFrequenciaCardiaca().calcularMinimo(dataInicial,dataFim);
-                System.out.print("Máximo da fc: " + minFQ);
-                int minO2= (int) temp.getSaturacaoDeOxigenio().calcularMinimo(dataInicial,dataFim);
-                System.out.print("\nMáximo da O2: " + minO2);
-                int minC = (int) temp.getTemperatura().calcularMinimo(dataInicial,dataFim);
-                System.out.println("\nMáximo da Temperatura: " + minC);
-                calcularEstatisticas();
-                break;
-            case 3:
-
-                for (Paciente p : sistema.getPacientes()){
-                    System.out.println("\n"+p.getNome());
-                    FrequenciaCardiaca fcs = new FrequenciaCardiaca();
-                    SaturacaoDeOxigenio o2s = new SaturacaoDeOxigenio();
-                    Temperatura ts = new Temperatura();
-                    fcs.adicionar(p.getFrequenciaCardiaca());
-                    o2s.adicionar(p.getSaturacaoDeOxigenio());
-                    ts.adicionar(p.getTemperatura());
-                    System.out.println("Desvio padrão da fc: " + fcs.calcularDesvioPadrao(dataInicial,dataFim));
-                    System.out.println("Desvio padrão de O2: " + o2s.calcularDesvioPadrao(dataInicial,dataFim));
-                    System.out.println("Desvio padrão da temperatura: " + ts.calcularDesvioPadrao(dataInicial,dataFim));
-                    temp.adicionarMedicao(p.getFrequenciaCardiaca());
-                    temp.adicionarMedicao(p.getSaturacaoDeOxigenio());
-                    temp.adicionarMedicao(p.getTemperatura());
-                }
-                System.out.println("\nDesvio Padrao de todos os pacientes: ");
-                System.out.println("Desvio padrão da fc: " + temp.getFrequenciaCardiaca().calcularDesvioPadrao(dataInicial,dataFim));
-                System.out.println("Desvio padrão de O2: " + temp.getSaturacaoDeOxigenio().calcularDesvioPadrao(dataInicial,dataFim));
-                System.out.println("Desvio padrão da temperatura: " + temp.getTemperatura().calcularDesvioPadrao(dataInicial,dataFim));
-
-                calcularEstatisticas();
-                break;
-            case 4:
-
-                for (Paciente p : sistema.getPacientes()){
-                    System.out.println("\n"+p.getNome());
-                    FrequenciaCardiaca fcs2 = new FrequenciaCardiaca();
-                    SaturacaoDeOxigenio o2s2 = new SaturacaoDeOxigenio();
-                    Temperatura ts2 = new Temperatura();
-                    fcs2.adicionar(p.getFrequenciaCardiaca());
-                    o2s2.adicionar(p.getSaturacaoDeOxigenio());
-                    ts2.adicionar(p.getTemperatura());
-                    System.out.println("Média da fc: " + fcs2.calcularMedia(dataInicial,dataFim));
-                    System.out.println("Média de O2: " + o2s2.calcularMedia(dataInicial,dataFim));
-                    System.out.println("Média da Temperatura: " + ts2.calcularMedia(dataInicial,dataFim));
-                    temp.adicionarMedicao(p.getFrequenciaCardiaca());
-                    temp.adicionarMedicao(p.getSaturacaoDeOxigenio());
-                    temp.adicionarMedicao(p.getTemperatura());
-                }
-                System.out.println("\nMedia de todos os pacientes: ");
-                System.out.println("Média da fc: " + temp.getFrequenciaCardiaca().calcularMedia(dataInicial,dataFim));
-                System.out.println("Média de O2: " + temp.getSaturacaoDeOxigenio().calcularMedia(dataInicial,dataFim));
-                System.out.println("Média da Temperatura: " + temp.getTemperatura().calcularMedia(dataInicial,dataFim));
-
-                calcularEstatisticas();
-                break;
-            case 5:
-                System.out.println("A voltar para o menu...");
-                menu();
-                break;
-        }
+    private void calcularEstatisticas() {
+        MenuInterativoEstatisticas.calcularEstatisticas(scanner, gerenciador);
     }
 
+
+
     /**
-     *Este método mostra informações sobre os técnicos armazenados na lista que é devoldida pelo método
-     getTecnicosDeSaude presente na classe SistemaMonitorização
-     *Se não houver nenhum técnico registrado (size() == 0), o programa exibe a mensagem:"Não há técnicos registados."
+     * Este método mostra informações sobre os técnicos armazenados na lista que é devolvida pelo método
+     * getTecnicosDeSaude presente na classe SistemaMonitorização
+     * Se não houver nenhum técnico registrado (size() == 0), o programa exibe a mensagem:"Não há técnicos registados."
      * Caso contrário, o método percorre todos os técnicos presentes na lista e exibe o seu nome e categoria profissional
-     * Por fim, volta ao menu
      */
-    public static void mostrarTecnicos() {
-        if (sistema.getTecnicosDeSaude().size() == 0) {
+    private void mostrarTecnicos() {
+        ArrayList<TecnicoDeSaude> tecnicos = gerenciador.getTecnicosDeSaude();
+        if (tecnicos.isEmpty()) {
             System.out.println("\nNão há técnicos registados.");
         } else {
             System.out.println("\n=== Técnicos de Saúde ===");
-            for (TecnicoDeSaude tecnico : sistema.getTecnicosDeSaude()) {
+            for (TecnicoDeSaude tecnico : tecnicos) {
                 System.out.println(" Nome: " + tecnico.getNome() + " - Categoria Profissional: " + tecnico.getCategoriaProfissional());
             }
         }
-        menu();
     }
 
     /**
      * Este método funciona de igual forma ao método mostrarTecnicos
      */
-    public static void mostrarPacientes() {
-        if (sistema.getPacientes().size() == 0) {
+    private void mostrarPacientes() {
+        ArrayList<Paciente> pacientes = gerenciador.getPacientes();
+        if (pacientes.isEmpty()) {
             System.out.println("\nNão há pacientes registados.");
         } else {
             System.out.println("\n=== Pacientes ===");
-            for (Paciente paciente : sistema.getPacientes()) {
+            for (Paciente paciente : pacientes) {
                 System.out.println(" Nome: " + paciente.getNome() + " - Data de Nascimento: " + paciente.getDataNascimento().toString());
             }
         }
-        menu();
     }
 
     /**
      * O método tem como objetivo exibir informações pessoais e o estado atual de um paciente específico.
-     * Através do nome introduzido pelo utilizador, o método encontrarPessoa da classe SistemadeMonitorização devolve o nome da pessoa, cuja classificação é "paciente".
-     * O resultado é armazenado na variável paciente, que é do tipo Pessoa.
-     * De seguida ´erealizado um casting para transformar o objeto paciente (que é do tipo Pessoa) num objeto do tipo específico Paciente.
-     * Por fim, são exibidas as informações do paciente através da chamada dos respetivos métodos presentes na classe paciente e é exibido novamente o menu.
+     * Através do nome introduzido pelo utilizador, o método encontrarPaciente da classe SistemaMonitorizacao devolve o paciente.
+     * Por fim, são exibidas as informações do paciente através da chamada dos respetivos métodos presentes na classe paciente.
      */
-    public static void estadoPaciente() {
+    private void estadoPaciente() {
         System.out.println("Selecione a opção: ");
-        System.out.println("1 - um ou mais pacientes");
-        System.out.println("2 - todos os pacietes");
+        System.out.println("1 - Um ou mais pacientes");
+        System.out.println("2 - Todos os pacientes");
         System.out.println("3 - Voltar para o menu");
-        int escolha = scanner.nextInt();
-        while (escolha != 1 && escolha != 2 && escolha != 3) {
-            System.out.println("\nNúmero inválido! Digite novamente o número da medida em questão:");
-            escolha = scanner.nextInt();
-        }
-        if (escolha == 3){
+        int escolha = lerOpcao(1, 3);
+        
+        if (escolha == 3) {
             System.out.println("A voltar para o menu...");
-            menu();
+            return;
         }
 
-        switch (escolha){
-            case 2:
-                for (Paciente paciente : sistema.getPacientes()) {
-                    printPatientCurrentState(paciente);
-                }
-                break;
+        switch (escolha) {
             case 1:
-                ArrayList<Paciente> pacientes = new ArrayList<>();
-                String nomePaciente = "-1";
-                while (!nomePaciente.equals("0")){
-                    nomePaciente = "";
-                    System.out.println("Insira o nome do paciente (0 para continuar): ");
-                    nomePaciente = scanner.next();
-                    if (nomePaciente.equals("0")){
-                        break;
-                    }
-                    Paciente paciente = sistema.encontrarPaciente(nomePaciente);
-                    pacientes.add(paciente);
-                }
-                for (Paciente paciente : pacientes) {
-                    printPatientCurrentState(paciente);
-                }
-                System.out.println("Paciente mais grave é: "+Classificador.pacienteEmMaiorRisco(pacientes));
+                mostrarEstadoPacientesEspecificos();
                 break;
-
+            case 2:
+                mostrarEstadoTodosPacientes();
+                break;
         }
-
-        return;
     }
-
-    private static void printPatientCurrentState(Paciente paciente) {
+    
+    /**
+     * Mostra o estado de pacientes específicos selecionados pelo usuário
+     */
+    private void mostrarEstadoPacientesEspecificos() {
+        ArrayList<Paciente> pacientes = new ArrayList<>();
+        String nomePaciente = "-1";
+        
+        while (!nomePaciente.equals("0")) {
+            System.out.println("Insira o nome do paciente (0 para continuar): ");
+            nomePaciente = scanner.next();
+            
+            if (nomePaciente.equals("0")) {
+                break;
+            }
+            
+            Paciente paciente = gerenciador.encontrarPaciente(nomePaciente);
+            if (paciente != null) {
+                pacientes.add(paciente);
+            } else {
+                System.out.println("Paciente não encontrado!");
+            }
+        }
+        
+        for (Paciente paciente : pacientes) {
+            mostrarEstadoPaciente(paciente);
+        }
+        
+        if (!pacientes.isEmpty()) {
+            Paciente pacienteMaisGrave = Classificador.pacienteEmMaiorRisco(pacientes);
+            System.out.println("Paciente mais grave é: " + pacienteMaisGrave.getNome());
+        }
+    }
+    
+    /**
+     * Mostra o estado de todos os pacientes
+     */
+    private void mostrarEstadoTodosPacientes() {
+        ArrayList<Paciente> pacientes = gerenciador.getPacientes();
+        
+        if (pacientes.isEmpty()) {
+            System.out.println("Não há pacientes registrados!");
+            return;
+        }
+        
+        for (Paciente paciente : pacientes) {
+            mostrarEstadoPaciente(paciente);
+        }
+    }
+    
+    /**
+     * Mostra o estado de um paciente específico
+     * @param paciente paciente a ser analisado
+     */
+    private void mostrarEstadoPaciente(Paciente paciente) {
+        System.out.println("\n=== Estado do Paciente ===");
         System.out.println("Nome: " + paciente.getNome());
         System.out.println("Data de Nascimento: " + paciente.getDataNascimento().toString());
         System.out.println("Estado do Paciente: " + paciente.classificarPaciente());
-        System.out.println("Score de gravidade: "+ Classificador.ScorePaciente(paciente));
-        System.out.println("Classificação de score: "+Classificador.classificarGravidade(paciente));
+        System.out.println("Score de gravidade: " + Classificador.ScorePaciente(paciente));
+        System.out.println("Classificação de score: " + Classificador.classificarGravidade(paciente));
+        System.out.println("==============================");
     }
-
+    
     /**
      * Este método tem como objetivo a criação de diferentes objetos para realizar o teste do programa
      */
     public void createTestObjects() {
-        TecnicoDeSaude tecnicoDeSaude1 = new TecnicoDeSaude("Maria", "1995/05/19", "Enfermeira");
-        sistema.adicionarPessoa(tecnicoDeSaude1);
-        TecnicoDeSaude tecnicoDeSaude = new TecnicoDeSaude("José", "1989/06/23", "Médico");
-        sistema.adicionarPessoa(tecnicoDeSaude);
-
-        Paciente paciente1 = new Paciente("Beatriz", "2006/05/29", 168, 68);
-        paciente1.adicionarMedicao(new FrequenciaCardiaca(190, "2024/10/11",tecnicoDeSaude));
-        paciente1.adicionarMedicao(new SaturacaoDeOxigenio(90, "2024/10/12",tecnicoDeSaude));
-        paciente1.adicionarMedicao(new Temperatura(38.0,"2024/10/13",tecnicoDeSaude));
-        sistema.adicionarPessoa(paciente1);
-
-        Paciente paciente = new Paciente("Luís","1999/02/01", 182, 90);
-        paciente.adicionarMedicao(new FrequenciaCardiaca(70, "2024/10/11", tecnicoDeSaude1));
-        paciente.adicionarMedicao(new SaturacaoDeOxigenio(99, "2024/10/12", tecnicoDeSaude1));
-        paciente.adicionarMedicao(new Temperatura(37, "2024/10/13", tecnicoDeSaude1));
-        sistema.adicionarPessoa(paciente);
+        gerenciador.createTestObjects();
     }
 }
