@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -81,13 +82,26 @@ public class MenuInterativo {
      * @return opção escolhida pelo usuário
      */
     private int lerOpcao(int min, int max) {
-        int opcao = scanner.nextInt();
-        while (opcao < min || opcao > max) {
-            System.out.println("\nNúmero inválido! Digite novamente o número da funcionalidade em questão:");
-            opcao = scanner.nextInt();
+        int opcao = -1;
+        boolean valido = false;
+
+        while (!valido) {
+            try {
+                opcao = scanner.nextInt();
+                if (opcao >= min && opcao <= max) {
+                    valido = true;
+                } else {
+                    System.out.println("Número fora do intervalo. Tente novamente:");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Digite um número inteiro:");
+                scanner.next(); // limpa entrada inválida
+            }
         }
+
         return opcao;
     }
+
 
     /**
      * Este método permite adicionar uma medição de frequência cardíaca, saturação de oxigénio e temperatura,
@@ -135,12 +149,19 @@ public class MenuInterativo {
     private void adicionarFrequenciaCardiaca(Paciente paciente, TecnicoDeSaude tecnico, String dataColheita, 
                                            String nomePaciente, String nomeTecnico) {
         System.out.print("Insira bpm: ");
-        int bpm = scanner.nextInt();
-        while (bpm < 30 || bpm > 180) {
-            System.out.println("\nValor de frequência cardíaca inválido! Digite um valor de frequência cardíaca válido:");
-            bpm = scanner.nextInt();
+        int bpm = -1;
+        while (true) {
+            try {
+                bpm = scanner.nextInt();
+                if (bpm >= 30 && bpm <= 180) break;
+                System.out.println("Valor fora do intervalo (30-180). Tente novamente:");
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Digite um número inteiro:");
+                scanner.next();
+            }
         }
-        
+
+
         paciente.adicionarFrequenciaCardiaca(bpm, dataColheita, tecnico);
         System.out.print("Medição adicionada com sucesso!");
         System.out.println("\n Nome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "BPM: " + bpm);
@@ -152,12 +173,19 @@ public class MenuInterativo {
     private void adicionarSaturacaoOxigenio(Paciente paciente, TecnicoDeSaude tecnico, String dataColheita, 
                                           String nomePaciente, String nomeTecnico) {
         System.out.print("Insira saturaçao de oxigenio: ");
-        int saturacao = scanner.nextInt();
-        while (saturacao < 80 || saturacao > 100) {
-            System.out.println("\nValor de saturação de oxigénio inválido! Digite um valor de saturação de oxigénio válido:");
-            saturacao = scanner.nextInt();
+        int saturacao = -1;
+        while (true) {
+            try {
+                saturacao = scanner.nextInt();
+                if (saturacao >= 80 && saturacao <= 100) break;
+                System.out.println("Valor fora do intervalo (80-100). Tente novamente:");
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Digite um número inteiro:");
+                scanner.next();
+            }
         }
-        
+
+
         paciente.adicionarSaturacaoDeOxigenio(saturacao, dataColheita, tecnico);
         System.out.print("Medição adicionada com sucesso!");
         System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "S02: " + saturacao);
@@ -169,12 +197,19 @@ public class MenuInterativo {
     private void adicionarTemperatura(Paciente paciente, TecnicoDeSaude tecnico, String dataColheita, 
                                     String nomePaciente, String nomeTecnico) {
         System.out.println("Insira temperatura: ");
-        double temperatura = scanner.nextDouble();
-        while (temperatura < 25 || temperatura > 43) {
-            System.out.println("\nValor de temperatura inválido! Digite um valor de temperatura válido:");
-            temperatura = scanner.nextDouble();
+        double temperatura = -1;
+        while (true) {
+            try {
+                temperatura = scanner.nextDouble();
+                if (temperatura >= 25 && temperatura <= 43) break;
+                System.out.println("Valor fora do intervalo (25-43). Tente novamente:");
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Digite um número decimal:");
+                scanner.next();
+            }
         }
-        
+
+
         paciente.adicionarTemperatura(temperatura, dataColheita, tecnico);
         System.out.print("Medição adicionada com sucesso!");
         System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "Temperatura: " + temperatura);
@@ -192,6 +227,10 @@ public class MenuInterativo {
 
         System.out.print("Data de Nascimento (aaaa/mm/dd): ");
         String dataNascimento = scanner.next();
+        if (!dataNascimento.matches("\\\\d{4}/\\\\d{2}/\\\\d{2}")) {
+            System.out.println("Formato de data inválido. Use aaaa/mm/dd.");
+            return;
+        }
 
         System.out.print("Altura (cm): ");
         int altura = scanner.nextInt();
@@ -212,6 +251,10 @@ public class MenuInterativo {
 
         System.out.print("Data de Nascimento (aaaa/mm/dd): ");
         String dataNascimentoTecnico = scanner.next();
+        if (!dataNascimentoTecnico.matches("\\\\d{4}/\\\\d{2}/\\\\d{2}")) {
+            System.out.println("Formato de data inválido. Use aaaa/mm/dd.");
+            return;
+        }
 
         System.out.print("Categoria Profissional: ");
         String categoriaProfissional = scanner.next();
@@ -359,3 +402,4 @@ public class MenuInterativo {
         gerenciador.createTestObjects();
     }
 }
+
