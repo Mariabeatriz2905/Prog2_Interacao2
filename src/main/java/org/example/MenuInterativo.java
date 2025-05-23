@@ -197,18 +197,11 @@ public class MenuInterativo {
     private void adicionarTemperatura(Paciente paciente, TecnicoDeSaude tecnico, String dataColheita, 
                                     String nomePaciente, String nomeTecnico) {
         System.out.println("Insira temperatura: ");
-        double temperatura = -1;
-        while (true) {
-            try {
-                temperatura = scanner.nextDouble();
-                if (temperatura >= 25 && temperatura <= 43) break;
-                System.out.println("Valor fora do intervalo (25-43). Tente novamente:");
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada inválida. Digite um número decimal:");
-                scanner.next();
-            }
+        double temperatura = scanner.nextDouble();
+        while (temperatura < 25 || temperatura > 43) {
+            System.out.println("\nValor de temperatura inválido! Digite um valor de temperatura válido:");
+            temperatura = scanner.nextDouble();
         }
-
 
         paciente.adicionarTemperatura(temperatura, dataColheita, tecnico);
         System.out.print("Medição adicionada com sucesso!");
@@ -227,10 +220,6 @@ public class MenuInterativo {
 
         System.out.print("Data de Nascimento (aaaa/mm/dd): ");
         String dataNascimento = scanner.next();
-        if (!dataNascimento.matches("\\\\d{4}/\\\\d{2}/\\\\d{2}")) {
-            System.out.println("Formato de data inválido. Use aaaa/mm/dd.");
-            return;
-        }
 
         System.out.print("Altura (cm): ");
         int altura = scanner.nextInt();
@@ -251,10 +240,6 @@ public class MenuInterativo {
 
         System.out.print("Data de Nascimento (aaaa/mm/dd): ");
         String dataNascimentoTecnico = scanner.next();
-        if (!dataNascimentoTecnico.matches("\\\\d{4}/\\\\d{2}/\\\\d{2}")) {
-            System.out.println("Formato de data inválido. Use aaaa/mm/dd.");
-            return;
-        }
 
         System.out.print("Categoria Profissional: ");
         String categoriaProfissional = scanner.next();
