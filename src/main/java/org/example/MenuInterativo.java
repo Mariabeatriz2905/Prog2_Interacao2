@@ -28,7 +28,7 @@ public class MenuInterativo {
         int escolha;
         do {
             exibirMenuPrincipal();
-            escolha = lerOpcao(1, 8);
+            escolha = lerOpcao(1, 10);
             
             switch (escolha) {
                 case 1:
@@ -53,10 +53,16 @@ public class MenuInterativo {
                     estadoPaciente();
                     break;
                 case 8:
+                    alteracaoSinaisVitais();
+                    break; // JOANA
+                case 9:
+                    pacientesEmSituacaoCritica();
+                    break; // JOANA
+                case 10:
                     System.out.print("A sair!");
                     break;
             }
-        } while (escolha != 8);
+        } while (escolha != 10);
     }
     
     /**
@@ -386,5 +392,29 @@ public class MenuInterativo {
     public void createTestObjects() {
         gerenciador.createTestObjects();
     }
+
+    private static void alteracaoSinaisVitais(){
+        double percentagem = 0;
+        boolean inputValido = false;
+
+        while(!inputValido){
+            System.out.println("Insira a percentagem que pretende criar a alteração súbita");
+            String input = scanner.next();
+            try{
+                percentagem = Double.parseDouble(input);
+                this.gerenciador.alterarSinaisVitais(percentagem);
+                inputValido = true;
+            }catch(NumberFormatException e){
+                System.out.println("A percentagem que introduziu não é valida!(introduza um número)");
+            }
+        }
+
+    }
+
+    private static void pacientesEmSituacaoCritica(){
+        int pacientesSituacaoCritica = this.gerenciador.pacientesEmSituacaoCritica();
+        System.out.println("Pacientes em Situação Crítica(%): " + pacientesSituacaoCritica + "%");
+    }
+
 }
 

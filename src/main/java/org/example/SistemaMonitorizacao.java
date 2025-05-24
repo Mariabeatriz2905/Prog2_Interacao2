@@ -89,4 +89,52 @@ public class SistemaMonitorizacao {
         }
         return null;
     }
+    public void alterarSinaisVitais(double percentagem){
+        for(Paciente p : this.pacientes){
+                Paciente paciente = (Paciente) p;
+
+                if (paciente.getTemperatura() != null && paciente.getTemperatura().getMedicao() != null) {
+                    ArrayList<Double> medicoesTemperatura = paciente.getTemperatura().getMedicao();
+                    if (!medicoesTemperatura.isEmpty()) {
+                        double ultimaTemperatura = medicoesTemperatura.getLast();
+                        medicoesTemperatura.add(alterarPercentualmente(percentagem, ultimaTemperatura));
+                    }
+                }
+
+                if (paciente.getFrequenciaCardiaca() != null && paciente.getFrequenciaCardiaca().getMedicao() != null) {
+                    ArrayList<Integer> medicoesFreqCardiaca = paciente.getFrequenciaCardiaca().getMedicao();
+                    if (!medicoesFreqCardiaca.isEmpty()) {
+                        int ultimaFreqCardiaca = medicoesFreqCardiaca.getLast();
+                        medicoesFreqCardiaca.add((int) alterarPercentualmente(percentagem, ultimaFreqCardiaca));
+                    }
+                }
+
+                if (paciente.getSaturacaoDeOxigenio() != null && paciente.getSaturacaoDeOxigenio().getMedicao() != null) {
+                    ArrayList<Integer> medicoesSatOxigenio = paciente.getSaturacaoDeOxigenio().getMedicao();
+                    if (!medicoesSatOxigenio.isEmpty()) {
+                        int ultimaSatOxigenio = medicoesSatOxigenio.getLast();
+                        medicoesSatOxigenio.add((int) alterarPercentualmente(percentagem, ultimaSatOxigenio));
+                    }
+                }
+        }
+    }
+
+    private double alterarPercentualmente(double percentagem, double medicao){
+        return (medicao * (1 + percentagem/ 100));
+    }
+
+    public int pacientesEmSituacaoCritica(){
+        int pacientesCriticos = 0;
+        int nPacientes = 0;
+        for(Paciente p : this.pacientes){
+                Paciente paciente = (Paciente) p;
+                nPacientes ++;
+                String estado = paciente.classificarPaciente();
+                if(estado.equals( "Critico")){
+                    pacientesCriticos ++;
+                }
+        }
+        return pacientesCriticos / nPacientes * 100;
+    }
+
 }
