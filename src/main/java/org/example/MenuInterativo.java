@@ -71,7 +71,7 @@ public class MenuInterativo {
     private void exibirMenuPrincipal() {
         System.out.println("\n=== MENU ===");
         System.out.println("\n1. Adicionar Paciente");
-        System.out.println("2. Adicionar Medicao");
+        System.out.println("2. Adicionar Medicao e apresentar gráfico de barras que caracteriza o valor da medição");
         System.out.println("3. Adicionar Técnico");
         System.out.println("4. Calcular Estatísticas");
         System.out.println("5. Mostrar Pacientes");
@@ -152,8 +152,7 @@ public class MenuInterativo {
     /**
      * Adiciona uma medição de frequência cardíaca
      */
-    private void adicionarFrequenciaCardiaca(Paciente paciente, TecnicoDeSaude tecnico, String dataColheita, 
-                                           String nomePaciente, String nomeTecnico) {
+    private void adicionarFrequenciaCardiaca(Paciente paciente, TecnicoDeSaude tecnico, String dataColheita, String nomePaciente, String nomeTecnico) {
         System.out.print("Insira bpm: ");
         int bpm = -1;
         while (true) {
@@ -166,18 +165,29 @@ public class MenuInterativo {
                 scanner.next();
             }
         }
-
-
         paciente.adicionarFrequenciaCardiaca(bpm, dataColheita, tecnico);
         System.out.print("Medição adicionada com sucesso!");
-        System.out.println("\n Nome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "BPM: " + bpm);
+        graficoBPM( bpm, nomePaciente, nomeTecnico);
+    }
+
+    private void graficoBPM(int bpm, String nomePaciente, String nomeTecnico){
+        String asteriscosBPM;
+        if (bpm >= 60 && bpm <= 100) {
+            asteriscosBPM = "***";
+        } else {
+            if (bpm > 100 && bpm<= 120) {
+                asteriscosBPM = "******";
+            } else {
+                asteriscosBPM = "*********";
+            }
+        }
+        System.out.println("\n Nome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "BPM: " + bpm + "Gráfico de Barras" + asteriscosBPM);
     }
     
     /**
      * Adiciona uma medição de saturação de oxigênio
      */
-    private void adicionarSaturacaoOxigenio(Paciente paciente, TecnicoDeSaude tecnico, String dataColheita, 
-                                          String nomePaciente, String nomeTecnico) {
+    private void adicionarSaturacaoOxigenio(Paciente paciente, TecnicoDeSaude tecnico, String dataColheita, String nomePaciente, String nomeTecnico) {
         System.out.print("Insira saturaçao de oxigenio: ");
         int saturacao = -1;
         while (true) {
@@ -190,18 +200,31 @@ public class MenuInterativo {
                 scanner.next();
             }
         }
-
-
         paciente.adicionarSaturacaoDeOxigenio(saturacao, dataColheita, tecnico);
         System.out.print("Medição adicionada com sucesso!");
-        System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "S02: " + saturacao);
+        graficoSO( saturacao, nomePaciente, nomeTecnico);
     }
+
+    private void graficoSO(int saturacao, String nomePaciente, String nomeTecnico){
+
+        String asteriscosSO;
+        if (saturacao >= 95) {
+            asteriscosSO = "***";
+        } else {
+            if (saturacao > 90 && saturacao <95) {
+                asteriscosSO = "******";
+            } else {
+                asteriscosSO = "*********";
+            }
+        }
+        System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "S02: " + saturacao + "Gráfico de Barras" + asteriscosSO);
+    }
+
     
     /**
      * Adiciona uma medição de temperatura
      */
-    private void adicionarTemperatura(Paciente paciente, TecnicoDeSaude tecnico, String dataColheita, 
-                                    String nomePaciente, String nomeTecnico) {
+    private void adicionarTemperatura(Paciente paciente, TecnicoDeSaude tecnico, String dataColheita, String nomePaciente, String nomeTecnico) {
         System.out.println("Insira temperatura: ");
         double temperatura = scanner.nextDouble();
         while (temperatura < 25 || temperatura > 43) {
@@ -211,8 +234,25 @@ public class MenuInterativo {
 
         paciente.adicionarTemperatura(temperatura, dataColheita, tecnico);
         System.out.print("Medição adicionada com sucesso!");
-        System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "Temperatura: " + temperatura);
+        graficoTEMP( temperatura, nomePaciente, nomeTecnico);
     }
+
+    private void graficoTEMP(double temperatura, String nomePaciente, String nomeTecnico){
+
+        String asteriscosTMP;
+        if (temperatura >= 36 && temperatura <= 37.5) {
+            asteriscosTMP = "***";
+        } else {
+            if (temperatura > 37.5 && temperatura <= 38.5) {
+                asteriscosTMP = "******";
+            } else {
+                asteriscosTMP = "*********";
+            }
+        }
+        System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "Temperatura: " + temperatura + "Gráfico de Barras" + asteriscosTMP);
+    }
+
+}
 
     /**
      * O método solicita inputs do utilizador, que são armazenados em diferentes variáveis.
