@@ -415,6 +415,34 @@ public class MenuInterativo {
         int pacientesSituacaoCritica = this.gerenciador.pacientesEmSituacaoCritica();
         System.out.println("Pacientes em Situação Crítica(%): " + pacientesSituacaoCritica + "%");
     }
+    /**
+     * Este método pede ao utilizador uma percentagem válida e faz uma alteracao subita percentual das suas últimas medicoes
+     */
+    private void alteracaoSinaisVitais(){
+        double percentagem = 0;
+        boolean inputValido = false;
+
+        while(!inputValido){
+            System.out.println("Insira a percentagem que pretende criar a alteração súbita");
+            String input = scanner.next();
+            try{
+                percentagem = Double.parseDouble(input);
+                gerenciador.alterarSinaisVitais(percentagem);
+                inputValido = true;
+            }catch(NumberFormatException e){
+                System.out.println("A percentagem que introduziu não é valida!(introduza um número)");
+            }
+        }
+
+    }
+
+    /**
+     * Este método mostra a percentagem de pacientes em situação critica
+     */
+    private void pacientesEmSituacaoCritica(){
+        int pacientesSituacaoCritica = gerenciador.pacientesEmSituacaoCritica();
+        System.out.println("Pacientes em Situação Crítica(%): " + pacientesSituacaoCritica + "%");
+    }
 
 }
 

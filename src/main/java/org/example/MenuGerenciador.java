@@ -130,4 +130,19 @@ public class MenuGerenciador {
         paciente.adicionarTemperatura(37, "2024/10/13", tecnicoDeSaude1);
         sistema.adicionarPessoa(paciente);
     }
+    /**
+     * Altera subitamente de forma percentual os sinais vitais dos pacientes
+     * @param percentagem variação da percentagem
+     */
+    public void alterarSinaisVitais(double percentagem){
+        sistema.alterarSinaisVitais(percentagem);
+    }
+
+    /**
+     * Mostra a percentagem de pacientes em situação critica
+     * @return percentagem de pacientes em situação critica
+     */
+    public int pacientesEmSituacaoCritica(){
+        return sistema.pacientesEmSituacaoCritica();
+    }
 }
