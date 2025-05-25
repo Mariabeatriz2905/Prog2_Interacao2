@@ -1,12 +1,13 @@
 package org.example.model;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
 /**
  * Classe que representa um array de medições de frequência cardíaca
  */
-public class FrequenciaCardiacaArray extends SinaisVitaisArray {
+public class FrequenciaCardiacaArray extends SinaisVitaisArray implements Serializable{
     private ArrayList<Integer> medicao;
 
     /**
@@ -151,5 +152,27 @@ public class FrequenciaCardiacaArray extends SinaisVitaisArray {
         else if ((fc >= 111 && fc <= 130) || (fc >= 40 && fc <= 49)) return 3;
         else if ((fc >= 131 && fc <= 150) || (fc >= 30 && fc <= 39)) return 4;
         else return 5;
+    }
+
+    public void salvarDados() {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("dadosFrequenciaCardiaca.ser"))) {
+            out.writeObject(this.medicao);
+            out.writeObject(this.dataColheita);
+            out.writeObject(this.tecnicoResponsavel);
+            System.out.println("Dados guardados com sucesso!");
+        } catch (IOException e) {
+            System.out.println("Erro ao guardar os dados: " + e.getMessage());
+        }
+    }
+
+    public void carregarDados() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("dadosFrequenciaCardiaca.ser"))) {
+            this.medicao = (ArrayList<Integer>) in.readObject();
+            this.dataColheita = (ArrayList<Data>) in.readObject();
+            this.tecnicoResponsavel = (ArrayList<TecnicoDeSaude>) in.readObject();
+            System.out.println("Dados carregados com sucesso!");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Erro ao carregar os dados: " + e.getMessage());
+        }
     }
 }

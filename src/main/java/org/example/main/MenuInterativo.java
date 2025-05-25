@@ -1,7 +1,6 @@
 package org.example.main;
 
-import org.example.model.Paciente;
-import org.example.model.TecnicoDeSaude;
+import org.example.model.*;
 import org.example.service.MenuGerenciador;
 import org.example.service.SistemaMonitorizacao;
 import org.example.utils.Classificador;
@@ -16,6 +15,10 @@ import java.util.Scanner;
 public class MenuInterativo {
     private Scanner scanner;
     private MenuGerenciador gerenciador;
+    private FrequenciaCardiacaArray frequenciaCardiaca;
+    private SaturacaoDeOxigenioArray saturacaoOxigenio;
+    private TemperaturaArray temp;
+
 
     /**
      * Construtor que inicializa o scanner e o gerenciador de menu
@@ -24,6 +27,16 @@ public class MenuInterativo {
         this.scanner = new Scanner(System.in);
         SistemaMonitorizacao sistema = new SistemaMonitorizacao();
         this.gerenciador = new MenuGerenciador(sistema);
+
+        // Inicializa o objeto de frequência cardíaca e carrega os dados salvos
+        this.frequenciaCardiaca = new FrequenciaCardiacaArray();
+        this.frequenciaCardiaca.carregarDados();
+
+        this.saturacaoOxigenio = new SaturacaoDeOxigenioArray();
+        this.saturacaoOxigenio.carregarDados();
+
+        this.temp = new TemperaturaArray();
+        this.temp.carregarDados();
     }
 
     /**
@@ -65,7 +78,7 @@ public class MenuInterativo {
                     pacientesEmSituacaoCritica();
                     break;
                 case 10:
-                    System.out.print("A sair!");
+                    ficheirosTexto();
                     break;
             }
         } while (escolha != 10);
@@ -85,9 +98,8 @@ public class MenuInterativo {
         System.out.println("7. Estado de paciente");
         System.out.println("8. Alteracao Sinais Vitais");
         System.out.println("9. Percentagem Pacientes Situacao Critica(%)");
-        System.out.println("10. Sair");
-
-        System.out.print("Digite 1,2,3,4,5,6,7,8,9 ou 10 consoante a funcionalidade que pretende usar: ");
+        System.out.println("10. Leitura de dados a partir de ficheiros de texto e visualização de dados no ecrã");
+        System.out.print("Digite 1,2, 3, 4, 5, 6, 7, 8, 9 ou 10 consoante a funcionalidade que pretende usar: ");
     }
 
     /**
@@ -97,7 +109,7 @@ public class MenuInterativo {
      * @return opção escolhida pelo usuário
      */
     private int lerOpcao(int min, int max) {
-        int opcao = -1;
+        int opcao = 0;
         boolean valido = false;
 
         while (!valido) {
@@ -113,7 +125,6 @@ public class MenuInterativo {
                 scanner.next(); // limpa entrada inválida
             }
         }
-
         return opcao;
     }
 
@@ -175,6 +186,7 @@ public class MenuInterativo {
             }
         }
         paciente.adicionarFrequenciaCardiaca(bpm, dataColheita, tecnico);
+        frequenciaCardiaca.salvarDados();
         System.out.print("Medição adicionada com sucesso!");
         graficoBPM( bpm, nomePaciente, nomeTecnico);
     }
@@ -210,6 +222,7 @@ public class MenuInterativo {
             }
         }
         paciente.adicionarSaturacaoDeOxigenio(saturacao, dataColheita, tecnico);
+        saturacaoOxigenio.salvarDados();
         System.out.print("Medição adicionada com sucesso!");
         graficoSO( saturacao, nomePaciente, nomeTecnico);
     }
@@ -242,6 +255,7 @@ public class MenuInterativo {
         }
 
         paciente.adicionarTemperatura(temperatura, dataColheita, tecnico);
+        temp.salvarDados();
         System.out.print("Medição adicionada com sucesso!");
         graficoTEMP( temperatura, nomePaciente, nomeTecnico);
     }
@@ -468,6 +482,26 @@ public void createTestObjects() {
     private void pacientesEmSituacaoCritica(){
         int pacientesSituacaoCritica = gerenciador.pacientesEmSituacaoCritica();
         System.out.println("Pacientes em Situação Crítica(%): " + pacientesSituacaoCritica + "%");
+    }
+
+    private void ficheirosTexto() {
+        System.out.println("Que dados é que pretende visualizar no ecrã: ");
+        System.out.println("1. Lista de pacientes");
+        System.out.println("2. Lista de técnicos");
+        System.out.println("3. Lista de mediões efetuadas");
+        int escolha = lerOpcao(1, 3);
+
+        switch (escolha) {
+            case 1:
+                LeitorFicheiros.lerPacientes();
+                break;
+            case 2:
+                LeitorFicheiros.lerTecnicos();
+                break;
+            case 3:
+                LeitorFicheiros.lerMedicao();
+                break;
+        }
     }
 }
 
