@@ -1,4 +1,7 @@
-package org.example;
+package org.example.service;
+
+import org.example.model.Paciente;
+import org.example.model.TecnicoDeSaude;
 
 /**
  * Classe responsável por gerenciar as operações do menu

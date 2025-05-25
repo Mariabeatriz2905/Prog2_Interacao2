@@ -1,4 +1,9 @@
-package org.example;
+package org.example.main;
+
+import org.example.model.Data;
+import org.example.service.EstatisticasCalculador;
+import org.example.service.MenuGerenciador;
+import org.example.model.Paciente;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -108,7 +113,7 @@ public class MenuInterativoEstatisticas {
         } else {
             dataInicial = new Data(input);
         }
-        
+
         System.out.println("Digite a data final (mais recente) no formato aaaa/mm/dd ou digite 0 para serem consideradas todas as datas disponíveis: ");
         input = scanner.next();
         Data dataFinal;

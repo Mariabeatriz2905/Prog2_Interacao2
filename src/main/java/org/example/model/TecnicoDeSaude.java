@@ -1,4 +1,4 @@
-package org.example;
+package org.example.model;
 
 //Class TecnicoDeSaude que herda e Pessoa e contém a categoria profissinal
 public class TecnicoDeSaude extends Pessoa {
