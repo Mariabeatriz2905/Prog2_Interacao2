@@ -1,5 +1,6 @@
 package org.example.main;
 
+import org.example.io.LeitorFicheiros;
 import org.example.model.*;
 import org.example.service.MenuGerenciador;
 import org.example.service.SistemaMonitorizacao;
@@ -99,7 +100,7 @@ public class MenuInterativo {
         System.out.println("8. Alteracao Sinais Vitais");
         System.out.println("9. Percentagem Pacientes Situacao Critica(%)");
         System.out.println("10. Leitura de dados a partir de ficheiros de texto e visualização de dados no ecrã");
-        System.out.print("Digite 1,2, 3, 4, 5, 6, 7, 8, 9 ou 10 consoante a funcionalidade que pretende usar: ");
+        System.out.println("Digite 1,2, 3, 4, 5, 6, 7, 8, 9 ou 10 consoante a funcionalidade que pretende usar: ");
     }
 
     /**
@@ -153,7 +154,7 @@ public class MenuInterativo {
             return;
         }
 
-        System.out.print("Data de colheita (aaaa/mm/dd): ");
+        System.out.println("Data de colheita (aaaa/mm/dd): ");
         String dataColheita = scanner.next();
 
         switch (escolha) {
@@ -173,8 +174,8 @@ public class MenuInterativo {
      * Adiciona uma medição de frequência cardíaca
      */
     private void adicionarFrequenciaCardiaca(Paciente paciente, TecnicoDeSaude tecnico, String dataColheita, String nomePaciente, String nomeTecnico) {
-        System.out.print("Insira bpm: ");
-        int bpm = -1;
+        System.out.println("Insira bpm: ");
+        int bpm;
         while (true) {
             try {
                 bpm = scanner.nextInt();
@@ -187,7 +188,7 @@ public class MenuInterativo {
         }
         paciente.adicionarFrequenciaCardiaca(bpm, dataColheita, tecnico);
         frequenciaCardiaca.salvarDados();
-        System.out.print("Medição adicionada com sucesso!");
+        System.out.println("Medição adicionada com sucesso!");
         graficoBPM( bpm, nomePaciente, nomeTecnico);
     }
 
@@ -209,8 +210,8 @@ public class MenuInterativo {
      * Adiciona uma medição de saturação de oxigênio
      */
     private void adicionarSaturacaoOxigenio(Paciente paciente, TecnicoDeSaude tecnico, String dataColheita, String nomePaciente, String nomeTecnico) {
-        System.out.print("Insira saturaçao de oxigenio: ");
-        int saturacao = -1;
+        System.out.println("Insira saturaçao de oxigenio: ");
+        int saturacao;
         while (true) {
             try {
                 saturacao = scanner.nextInt();
@@ -223,7 +224,7 @@ public class MenuInterativo {
         }
         paciente.adicionarSaturacaoDeOxigenio(saturacao, dataColheita, tecnico);
         saturacaoOxigenio.salvarDados();
-        System.out.print("Medição adicionada com sucesso!");
+        System.out.println("Medição adicionada com sucesso!");
         graficoSO( saturacao, nomePaciente, nomeTecnico);
     }
 
@@ -248,15 +249,20 @@ public class MenuInterativo {
      */
     private void adicionarTemperatura(Paciente paciente, TecnicoDeSaude tecnico, String dataColheita, String nomePaciente, String nomeTecnico) {
         System.out.println("Insira temperatura: ");
-        double temperatura = scanner.nextDouble();
-        while (temperatura < 25 || temperatura > 43) {
-            System.out.println("\nValor de temperatura inválido! Digite um valor de temperatura válido:");
-            temperatura = scanner.nextDouble();
+        double temperatura;
+        while (true) {
+            try {
+                temperatura = scanner.nextDouble();
+                if (temperatura < 25 && temperatura > 43) break;
+                System.out.println("Valor fora do intervalo (25-43). Tente novamente:");
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Digite um número inteiro:");
+                scanner.next();
+            }
         }
-
         paciente.adicionarTemperatura(temperatura, dataColheita, tecnico);
         temp.salvarDados();
-        System.out.print("Medição adicionada com sucesso!");
+        System.out.println("Medição adicionada com sucesso!");
         graficoTEMP( temperatura, nomePaciente, nomeTecnico);
     }
 
@@ -283,16 +289,16 @@ public class MenuInterativo {
  * Por fim, é exibida uma mensagem de confirmação e é chamado o método menu para que o utilizador possa realizar outras operações.
  */
 private void adicionarPaciente() {
-    System.out.print("Nome: ");
+    System.out.println("Nome: ");
     String nome = scanner.next();
 
-    System.out.print("Data de Nascimento (aaaa/mm/dd): ");
+    System.out.println("Data de Nascimento (aaaa/mm/dd): ");
     String dataNascimento = scanner.next();
 
-    System.out.print("Altura (cm): ");
+    System.out.println("Altura (cm): ");
     int altura = scanner.nextInt();
 
-    System.out.print("Peso (kg): ");
+    System.out.println("Peso (kg): ");
     int peso = scanner.nextInt();
 
     gerenciador.adicionarPaciente(nome, dataNascimento, altura, peso);
@@ -303,13 +309,13 @@ private void adicionarPaciente() {
  * Este método funciona da mesma forma que o método adicionarPaciente
  */
 private void adicionarTecnico() {
-    System.out.print("Nome: ");
+    System.out.println("Nome: ");
     String nomeTecnico = scanner.next();
 
-    System.out.print("Data de Nascimento (aaaa/mm/dd): ");
+    System.out.println("Data de Nascimento (aaaa/mm/dd): ");
     String dataNascimentoTecnico = scanner.next();
 
-    System.out.print("Categoria Profissional: ");
+    System.out.println("Categoria Profissional: ");
     String categoriaProfissional = scanner.next();
 
     gerenciador.adicionarTecnico(nomeTecnico, dataNascimentoTecnico, categoriaProfissional);
@@ -370,11 +376,6 @@ private void estadoPaciente() {
     System.out.println("3 - Voltar para o menu");
     int escolha = lerOpcao(1, 3);
 
-    if (escolha == 3) {
-        System.out.println("A voltar para o menu...");
-        return;
-    }
-
     switch (escolha) {
         case 1:
             mostrarEstadoPacientesEspecificos();
@@ -382,6 +383,9 @@ private void estadoPaciente() {
         case 2:
             mostrarEstadoTodosPacientes();
             break;
+        case 3:
+            System.out.println("A voltar para o menu...");
+            menu();
     }
 }
 
@@ -390,32 +394,24 @@ private void estadoPaciente() {
  */
 private void mostrarEstadoPacientesEspecificos() {
     ArrayList<Paciente> pacientes = new ArrayList<>();
-    String nomePaciente = "-1";
 
-    while (!nomePaciente.equals("0")) {
-        System.out.println("Insira o nome do paciente (0 para continuar): ");
-        nomePaciente = scanner.next();
-
-        if (nomePaciente.equals("0")) {
-            break;
-        }
-
-        Paciente paciente = gerenciador.encontrarPaciente(nomePaciente);
+    System.out.println("Insira o nome do paciente: ");
+    String nomePaciente = scanner.next();
+    Paciente paciente = gerenciador.encontrarPaciente(nomePaciente);
         if (paciente != null) {
             pacientes.add(paciente);
         } else {
             System.out.println("Paciente não encontrado!");
+            System.out.println("Introduza o nome do paciente");
+            nomePaciente = scanner.next();
         }
-    }
-
-    for (Paciente paciente : pacientes) {
-        mostrarEstadoPaciente(paciente);
-    }
-
-    if (!pacientes.isEmpty()) {
-        Paciente pacienteMaisGrave = Classificador.pacienteEmMaiorRisco(pacientes);
-        System.out.println("Paciente mais grave é: " + pacienteMaisGrave.getNome());
-    }
+        for (Paciente paciente : pacientes) {
+             mostrarEstadoPaciente(paciente);
+        }
+        if (!pacientes.isEmpty()) {
+            Paciente pacienteMaisGrave = Classificador.pacienteEmMaiorRisco(pacientes);
+            System.out.println("Paciente mais grave é: " + pacienteMaisGrave.getNome());
+        }
 }
 
 /**
@@ -459,7 +455,7 @@ public void createTestObjects() {
      * Este método pede ao utilizador uma percentagem válida e faz uma alteracao subita percentual das suas últimas medicoes
      */
     private void alteracaoSinaisVitais(){
-        double percentagem = 0;
+        double percentagem;
         boolean inputValido = false;
 
         while(!inputValido){
