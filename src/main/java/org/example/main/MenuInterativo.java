@@ -60,10 +60,10 @@ public class MenuInterativo {
                     break;
                 case 8:
                     alteracaoSinaisVitais();
-                    break; // JOANA
+                    break;
                 case 9:
                     pacientesEmSituacaoCritica();
-                    break; // JOANA
+                    break;
                 case 10:
                     System.out.print("A sair!");
                     break;
@@ -83,8 +83,11 @@ public class MenuInterativo {
         System.out.println("5. Mostrar Pacientes");
         System.out.println("6. Mostrar Tecnicos de Saúde");
         System.out.println("7. Estado de paciente");
-        System.out.println("8. Sair");
-        System.out.print("Digite 1,2, 3, 4, 5, 6, 7 ou 8 consoante a funcionalidade que pretende usar: ");
+        System.out.println("8. Alteracao Sinais Vitais");
+        System.out.println("9. Percentagem Pacientes Situacao Critica(%)");
+        System.out.println("10. Sair");
+
+        System.out.print("Digite 1,2,3,4,5,6,7,8,9 ou 10 consoante a funcionalidade que pretende usar: ");
     }
 
     /**
@@ -438,28 +441,33 @@ public void createTestObjects() {
     gerenciador.createTestObjects();
 }
 
-private static void alteracaoSinaisVitais(){
-    double percentagem = 0;
-    boolean inputValido = false;
+    /**
+     * Este método pede ao utilizador uma percentagem válida e faz uma alteracao subita percentual das suas últimas medicoes
+     */
+    private void alteracaoSinaisVitais(){
+        double percentagem = 0;
+        boolean inputValido = false;
 
-    while(!inputValido){
-        System.out.println("Insira a percentagem que pretende criar a alteração súbita");
-        String input = scanner.next();
-        try{
-            percentagem = Double.parseDouble(input);
-            this.gerenciador.alterarSinaisVitais(percentagem);
-            inputValido = true;
-        }catch(NumberFormatException e){
-            System.out.println("A percentagem que introduziu não é valida!(introduza um número)");
+        while(!inputValido){
+            System.out.println("Insira a percentagem que pretende criar a alteração súbita");
+            String input = scanner.next();
+            try{
+                percentagem = Double.parseDouble(input);
+                gerenciador.alterarSinaisVitais(percentagem);
+                inputValido = true;
+            }catch(NumberFormatException e){
+                System.out.println("A percentagem que introduziu não é valida!(introduza um número)");
+            }
         }
+
     }
 
-}
-
-private static void pacientesEmSituacaoCritica(){
-    int pacientesSituacaoCritica = this.gerenciador.pacientesEmSituacaoCritica();
-    System.out.println("Pacientes em Situação Crítica(%): " + pacientesSituacaoCritica + "%");
-}
-
+    /**
+     * Este método mostra a percentagem de pacientes em situação critica
+     */
+    private void pacientesEmSituacaoCritica(){
+        int pacientesSituacaoCritica = gerenciador.pacientesEmSituacaoCritica();
+        System.out.println("Pacientes em Situação Crítica(%): " + pacientesSituacaoCritica + "%");
+    }
 }
 
