@@ -1,4 +1,8 @@
-package org.example;
+package org.example.service;
+
+import org.example.model.Paciente;
+import org.example.model.Pessoa;
+import org.example.model.TecnicoDeSaude;
 
 import java.util.ArrayList;
 import java.util.Comparator;

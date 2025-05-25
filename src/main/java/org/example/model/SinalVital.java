@@ -1,4 +1,4 @@
-package org.example;
+package org.example.model;
 
 /**
  * Interface para representar um sinal vital individual

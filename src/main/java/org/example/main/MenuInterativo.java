@@ -1,4 +1,10 @@
-package org.example;
+package org.example.main;
+
+import org.example.model.Paciente;
+import org.example.model.TecnicoDeSaude;
+import org.example.service.MenuGerenciador;
+import org.example.service.SistemaMonitorizacao;
+import org.example.utils.Classificador;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;

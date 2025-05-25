@@ -1,4 +1,4 @@
-package org.example;
+package org.example.model;
 
 /**
  * Classe Paciente que herda de Pessoa e contém sinais vitais
