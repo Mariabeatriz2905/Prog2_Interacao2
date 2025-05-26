@@ -66,6 +66,18 @@ public class Paciente extends Pessoa {
         return temperatura;
     }
 
+    public void setFrequenciaCardiaca(FrequenciaCardiacaArray frequenciaCardiaca) {
+        this.frequenciaCardiaca = frequenciaCardiaca;
+    }
+
+    public void setTemperatura(TemperaturaArray temperatura) {
+        this.temperatura = temperatura;
+    }
+
+    public void setSaturacaoDeOxigenio(SaturacaoDeOxigenioArray saturacaoDeOxigenio) {
+        this.saturacaoDeOxigenio = saturacaoDeOxigenio;
+    }
+
     /**
      * Adiciona uma medição de frequência cardíaca
      * @param valor valor da frequência cardíaca
