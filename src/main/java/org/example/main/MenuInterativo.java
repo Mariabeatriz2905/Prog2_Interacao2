@@ -1,5 +1,6 @@
 package org.example.main;
 
+import org.example.io.LeitorFicheiros;
 import org.example.model.*;
 import org.example.service.MenuGerenciador;
 import org.example.service.SistemaMonitorizacao;
@@ -459,7 +460,7 @@ public void createTestObjects() {
      * Este método pede ao utilizador uma percentagem válida e faz uma alteracao subita percentual das suas últimas medicoes
      */
     private void alteracaoSinaisVitais(){
-        double percentagem = 0;
+        double percentagem;
         boolean inputValido = false;
 
         while(!inputValido){

@@ -99,8 +99,6 @@ public class SistemaMonitorizacao {
      */
     public void alterarSinaisVitais(double percentagem){
         for(Paciente paciente : this.pacientes){
-
-
             if (paciente.getTemperatura() != null && paciente.getTemperatura().getMedicao() != null) {
                 ArrayList<Double> medicoesTemperatura = paciente.getTemperatura().getMedicao();
                 if (!medicoesTemperatura.isEmpty()) {
@@ -116,7 +114,6 @@ public class SistemaMonitorizacao {
                     medicoesFreqCardiaca.add((int) alterarPercentualmente(percentagem, ultimaFreqCardiaca));
                 }
             }
-
             if (paciente.getSaturacaoDeOxigenio() != null && paciente.getSaturacaoDeOxigenio().getMedicao() != null) {
                 ArrayList<Integer> medicoesSatOxigenio = paciente.getSaturacaoDeOxigenio().getMedicao();
                 if (!medicoesSatOxigenio.isEmpty()) {
