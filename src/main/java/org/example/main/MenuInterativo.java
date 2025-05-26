@@ -99,7 +99,7 @@ public class MenuInterativo {
         System.out.println("8. Alteracao Sinais Vitais");
         System.out.println("9. Percentagem Pacientes Situacao Critica(%)");
         System.out.println("10. Leitura de dados a partir de ficheiros de texto e visualização de dados no ecrã");
-        System.out.print("\nDigite 1,2, 3, 4, 5, 6, 7, 8, 9 ou 10 consoante a funcionalidade que pretende usar: ");
+        System.out.print("Digite 1,2, 3, 4, 5, 6, 7, 8, 9 ou 10 consoante a funcionalidade que pretende usar: ");
     }
 
     /**
