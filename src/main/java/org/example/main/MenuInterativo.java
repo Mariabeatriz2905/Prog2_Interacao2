@@ -1,5 +1,6 @@
 package org.example.main;
 
+import org.example.io.LeitorFicheiros;
 import org.example.model.*;
 import org.example.service.MenuGerenciador;
 import org.example.service.SistemaMonitorizacao;
