@@ -20,9 +20,10 @@ public class SaturacaoDeOxigenioArray extends SinaisVitaisArray implements Seria
 
     /**
      * Método de acesso
+     *
      * @return devolve o conteúdo da variável de instância medicao, que é do tipo ArrayList
      */
-    public ArrayList<Integer> getMedicao() {
+    public int getMedicao() {
         return medicao;
     }
 

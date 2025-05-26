@@ -1,5 +1,6 @@
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.example.model.TecnicoDeSaude;
 import org.example.service.MenuGerenciador;
 import org.example.service.SistemaMonitorizacao;
 import org.example.model.Paciente;
@@ -28,28 +29,24 @@ public class PacientesSituacaoCriticaTest {
 
         Paciente paciente1 = new Paciente("Joana", "2000/02/08", 156, 57);
         Paciente paciente2 = new Paciente("Pedro", "1989/07/25", 178, 80);
-
+        TecnicoDeSaude tecnico1 = new TecnicoDeSaude("Jorge", "1976/06/24", "Médico");
+        TecnicoDeSaude tecnico2 = new TecnicoDeSaude("Teresa", "1967/05/20", "Enfermeira");
 
         pacientes.add(paciente1);
         pacientes.add(paciente2);
+        sistema.adicionarPessoa(tecnico1);
+        sistema.adicionarPessoa(tecnico2);
 
-        // Simulando os pacientes dentro do sistema
-        sistema.setPacientes(pacientes);
+        gerenciador.adicionarFrequenciaCardiaca(paciente1, 130, "2024/03/09", tecnico1);
+        gerenciador.adicionarFrequenciaCardiaca(paciente2, 60, "2024/03/09", tecnico2);
 
-        // Capturando a saída do console
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
-
-        // Executa o método
         gerenciador.pacientesEmSituacaoCritica();
-
-        // Obtém a saída do console
         String output = out.toString().trim();
 
-        // Calcula a porcentagem esperada
-        int expectedPercentage = (2 * 100) / 4; // 2 pacientes críticos de um total de 4
+        int expectedPercentage = (1 * 100) / 2; // 2 pacientes críticos de um total de 4
 
-        // Verifica se a saída contém a informação correta
         assertTrue(output.contains("Pacientes em Situação Crítica(%): " + expectedPercentage + "%"));
     }
 }

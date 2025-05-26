@@ -20,9 +20,10 @@ public class FrequenciaCardiacaArray extends SinaisVitaisArray implements Serial
 
     /**
      * Método de acesso
+     *
      * @return devolve o conteúdo da variável de instância medicao, que é do tipo ArrayList
      */
-    public ArrayList<Integer> getMedicao() {
+    public int getMedicao() {
         return medicao;
     }
 
