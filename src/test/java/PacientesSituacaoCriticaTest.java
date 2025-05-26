@@ -45,7 +45,7 @@ public class PacientesSituacaoCriticaTest {
         gerenciador.pacientesEmSituacaoCritica();
         String output = out.toString().trim();
 
-        int expectedPercentage = (1 * 100) / 2; // 2 pacientes críticos de um total de 4
+        int expectedPercentage = (1 * 100) / 2;
 
         assertTrue(output.contains("Pacientes em Situação Crítica(%): " + expectedPercentage + "%"));
     }

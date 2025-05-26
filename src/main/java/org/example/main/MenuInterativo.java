@@ -485,7 +485,7 @@ public void createTestObjects() {
         System.out.println("Pacientes em Situação Crítica(%): " + pacientesSituacaoCritica + "%");
     }
 
-    private void ficheirosTexto() {
+    protected void ficheirosTexto() {
         System.out.println("Que dados é que pretende visualizar no ecrã: ");
         System.out.println("1. Lista de pacientes");
         System.out.println("2. Lista de técnicos");
