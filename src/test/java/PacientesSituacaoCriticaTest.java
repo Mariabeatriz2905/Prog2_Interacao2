@@ -34,6 +34,9 @@ public class PacientesSituacaoCriticaTest {
 
         pacientes.add(paciente1);
         pacientes.add(paciente2);
+
+        sistema.adicionarPessoa(paciente1);
+        sistema.adicionarPessoa(paciente2);
         sistema.adicionarPessoa(tecnico1);
         sistema.adicionarPessoa(tecnico2);
 
@@ -42,12 +45,11 @@ public class PacientesSituacaoCriticaTest {
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
-        gerenciador.pacientesEmSituacaoCritica();
-        String output = out.toString().trim();
+        float percentage_criticos=gerenciador.pacientesEmSituacaoCritica();
 
-        int expectedPercentage = (1 * 100) / 2;
+        float expectedPercentage = (1 * 100) / 2;
 
-        assertTrue(output.contains("Pacientes em Situação Crítica(%): " + expectedPercentage + "%"));
+        assertEquals(expectedPercentage, percentage_criticos);
     }
 }
 

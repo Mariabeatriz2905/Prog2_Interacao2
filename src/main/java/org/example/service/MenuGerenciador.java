@@ -145,7 +145,7 @@ public class MenuGerenciador {
      * Mostra a percentagem de pacientes em situação critica
      * @return percentagem de pacientes em situação critica
      */
-    public int pacientesEmSituacaoCritica(){
+    public float pacientesEmSituacaoCritica(){
         return sistema.pacientesEmSituacaoCritica();
     }
 }

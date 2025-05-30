@@ -138,9 +138,9 @@ public class SistemaMonitorizacao {
      * Este método percorre a arrayList pacientes e verifica a quantidade percentual de pacientes em situação crítica
      * @return Percentagem de pacientes  em situação crítica
      */
-    public int pacientesEmSituacaoCritica(){
-        int pacientesCriticos = 0;
-        int nPacientes = 0;
+    public float pacientesEmSituacaoCritica(){
+        float pacientesCriticos = 0;
+        float nPacientes = 0;
         for(Paciente paciente : this.pacientes){
             nPacientes ++;
             String estado = paciente.classificarPaciente();

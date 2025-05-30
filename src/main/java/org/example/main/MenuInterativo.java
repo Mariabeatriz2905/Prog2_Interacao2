@@ -481,7 +481,7 @@ public void createTestObjects() {
      * Este método mostra a percentagem de pacientes em situação critica
      */
     private void pacientesEmSituacaoCritica(){
-        int pacientesSituacaoCritica = gerenciador.pacientesEmSituacaoCritica();
+        float pacientesSituacaoCritica = gerenciador.pacientesEmSituacaoCritica();
         System.out.println("Pacientes em Situação Crítica(%): " + pacientesSituacaoCritica + "%");
     }
 
