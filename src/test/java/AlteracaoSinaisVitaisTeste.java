@@ -41,9 +41,9 @@ public class AlteracaoSinaisVitaisTeste {
         gerenciador.alterarSinaisVitais(Double.parseDouble(inputSimulado)); // Executa o método
 
         // Verifica se os valores foram alterados corretamente
-        assertEquals(36.5 + 36.5 * 1.25, paciente.getTemperatura().getMedicao(), 0.01);
-        assertEquals(80 + 80 * 1.25, paciente.getFrequenciaCardiaca().getMedicao(), 0.01);
-        assertEquals(98 + 98 * 1.25, paciente.getSaturacaoDeOxigenio().getMedicao(), 0.01);
+        assertEquals(36.5 + 36.5 * 1.25, paciente.getTemperatura().getMedicao().getLast(), 0.01);
+        assertEquals(80 + 80 * 1.25, paciente.getFrequenciaCardiaca().getMedicao().getLast(), 0.01);
+        assertEquals(98 + 98 * 1.25, paciente.getSaturacaoDeOxigenio().getMedicao().getLast(), 0.01);
     }
 
     @Test

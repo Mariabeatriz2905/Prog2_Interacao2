@@ -23,7 +23,7 @@ public class TemperaturaArray extends SinaisVitaisArray implements Serializable{
      *
      * @return devolve o conteúdo da variável de instância medicao, que é do tipo ArrayList
      */
-    public double getMedicao() {
+    public ArrayList<Double> getMedicao() {
         return medicao;
     }
 
