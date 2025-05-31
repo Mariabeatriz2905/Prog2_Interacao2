@@ -433,6 +433,10 @@ private void mostrarEstadoTodosPacientes() {
     for (Paciente paciente : pacientes) {
         mostrarEstadoPaciente(paciente);
     }
+    if (!pacientes.isEmpty()) {
+        Paciente pacienteMaisGrave = Classificador.pacienteEmMaiorRisco(pacientes);
+        System.out.println("Paciente mais grave é: " + pacienteMaisGrave.getNome());
+    }
 }
 
 /**
