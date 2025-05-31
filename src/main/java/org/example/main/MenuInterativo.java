@@ -203,7 +203,7 @@ public class MenuInterativo {
                 asteriscosBPM = "*********";
             }
         }
-        System.out.println("\n Nome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "BPM: " + bpm + "Gráfico de Barras" + asteriscosBPM);
+        System.out.println("\n Nome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "BPM: " + bpm + "Gráfico de Barras: " + asteriscosBPM);
     }
 
     /**
@@ -240,7 +240,7 @@ public class MenuInterativo {
                 asteriscosSO = "*********";
             }
         }
-        System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "S02: " + saturacao + "Gráfico de Barras" + asteriscosSO);
+        System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "S02: " + saturacao + "Gráfico de Barras: " + asteriscosSO);
     }
 
 
@@ -273,7 +273,7 @@ public class MenuInterativo {
                 asteriscosTMP = "*********";
             }
         }
-        System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "Temperatura: " + temperatura + "Gráfico de Barras" + asteriscosTMP);
+        System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "Temperatura: " + temperatura + "Gráfico de Barras: " + asteriscosTMP);
     }
 
 
