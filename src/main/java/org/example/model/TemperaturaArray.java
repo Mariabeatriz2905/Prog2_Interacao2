@@ -142,6 +142,9 @@ public class TemperaturaArray extends SinaisVitaisArray implements Serializable{
     }
 
     @Override
+    /**
+     * Para cada intervalo de temperatura é atribuida uma pontuação de 1 a 5, sendo 1 correspondente a valores normais de temperatura e 5 valores de maior gravidade.
+     */
     public double getScore() {
         if (medicao.isEmpty()) {
             return 0;

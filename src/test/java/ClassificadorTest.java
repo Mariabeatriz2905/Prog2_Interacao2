@@ -1,6 +1,4 @@
-
 import org.example.model.*;
-
 import org.example.utils.Classificador;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;

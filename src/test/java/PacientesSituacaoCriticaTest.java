@@ -1,5 +1,4 @@
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.example.model.TecnicoDeSaude;
 import org.example.service.MenuGerenciador;
 import org.example.service.SistemaMonitorizacao;

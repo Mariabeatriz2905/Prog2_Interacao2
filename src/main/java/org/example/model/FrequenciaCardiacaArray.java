@@ -142,6 +142,9 @@ public class FrequenciaCardiacaArray extends SinaisVitaisArray implements Serial
     }
 
     @Override
+    /**
+     * Para cada intervalo de frequência cardíaca é atribuida uma pontuação de 1 a 5, sendo 1 correspondente a valores normais de frequência cardíaca e 5 valores de maior gravidade.
+     */
     public double getScore() {
         if (medicao.isEmpty()) {
             return 0;
