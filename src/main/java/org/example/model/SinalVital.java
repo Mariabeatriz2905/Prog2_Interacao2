@@ -1,8 +1,7 @@
 package org.example.model;
 
 /**
- * Interface para representar um sinal vital individual
- * Esta interface contém apenas os métodos necessários para um sinal vital individual,
+ * Esta interface define um conjunto de métodos que todas as classes de sinais vitais são obrigadas a implementar
  * sem os métodos específicos para arrays de medições
  */
 public interface SinalVital {
