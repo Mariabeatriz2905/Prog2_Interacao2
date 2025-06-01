@@ -20,13 +20,11 @@ public class AlteracaoSinaisVitaisTeste {
         sistema = new SistemaMonitorizacao();
         gerenciador = new MenuGerenciador(sistema);
 
-        // Criar paciente com sinais vitais
         paciente = new Paciente("João", "1990/01/01", 175, 70);
         paciente.adicionarTemperatura(36.5, "2025/05/26", new TecnicoDeSaude("Carlos", "1979/03/03", "Médico"));
         paciente.adicionarFrequenciaCardiaca(80, "2025/05/26", new TecnicoDeSaude("Carlos", "1979/03/03", "Médico"));
         paciente.adicionarSaturacaoDeOxigenio(96, "2025/05/26", new TecnicoDeSaude("Carlos", "1979/03/03", "Médico"));
 
-        // Adicionar paciente ao sistema
         sistema.adicionarPessoa(paciente);
     }
 

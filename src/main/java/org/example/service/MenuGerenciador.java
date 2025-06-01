@@ -113,6 +113,22 @@ public class MenuGerenciador {
     }
 
     /**
+     * Altera subitamente de forma percentual os sinais vitais dos pacientes
+     * @param percentagem variação da percentagem
+     */
+    public void alterarSinaisVitais(double percentagem){
+        sistema.alterarSinaisVitais(percentagem);
+    }
+
+    /**
+     * Mostra a percentagem de pacientes em situação critica
+     * @return percentagem de pacientes em situação critica
+     */
+    public float pacientesEmSituacaoCritica(){
+        return sistema.pacientesEmSituacaoCritica();
+    }
+
+    /**
      * Cria objetos de teste para o sistema
      */
     public void createTestObjects() {
@@ -132,20 +148,22 @@ public class MenuGerenciador {
         paciente.adicionarSaturacaoDeOxigenio(99, "2024/10/12", tecnicoDeSaude1);
         paciente.adicionarTemperatura(37, "2024/10/13", tecnicoDeSaude1);
         sistema.adicionarPessoa(paciente);
-    }
-    /**
-     * Altera subitamente de forma percentual os sinais vitais dos pacientes
-     * @param percentagem variação da percentagem
-     */
-    public void alterarSinaisVitais(double percentagem){
-        sistema.alterarSinaisVitais(percentagem);
-    }
 
-    /**
-     * Mostra a percentagem de pacientes em situação critica
-     * @return percentagem de pacientes em situação critica
-     */
-    public float pacientesEmSituacaoCritica(){
-        return sistema.pacientesEmSituacaoCritica();
+        System.out.println("Nome: " + tecnicoDeSaude1.getNome() + ", Cargo: " + tecnicoDeSaude1.getCategoriaProfissional());
+        System.out.println("Nome: " + tecnicoDeSaude.getNome() + ", Cargo: " + tecnicoDeSaude.getCategoriaProfissional());
+
+        System.out.println("Nome: " + paciente1.getNome() + ", Altura: " + paciente1.getAltura() + ", Peso: " + paciente1.getPeso());
+        System.out.println("Nome: " + paciente.getNome() + ", Altura: " + paciente.getAltura() + ", Peso: " + paciente.getPeso());
+
+        System.out.println("Medições da Beatriz:");
+        System.out.println("Frequência Cardíaca: " + paciente1.getFrequenciaCardiaca().getMedicao());
+        System.out.println("Saturação de Oxigênio: " + paciente1.getSaturacaoDeOxigenio().getMedicao());
+        System.out.println("Temperatura: " + paciente1.getTemperatura().getMedicao());
+
+        System.out.println("Medições do Luís:");
+        System.out.println("Frequência Cardíaca: " + paciente.getFrequenciaCardiaca().getMedicao());
+        System.out.println("Saturação de Oxigênio: " + paciente.getSaturacaoDeOxigenio().getMedicao());
+        System.out.println("Temperatura: " + paciente.getTemperatura().getMedicao());
+
     }
 }

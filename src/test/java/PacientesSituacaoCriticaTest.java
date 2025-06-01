@@ -24,7 +24,6 @@ public class PacientesSituacaoCriticaTest {
 
     @Test
     void testPacientesEmSituacaoCritica() {
-        // Criando lista de pacientes
         List<Paciente> pacientes = new ArrayList<>();
 
         Paciente paciente1 = new Paciente("Joana", "2000/02/08", 156, 57);
@@ -45,11 +44,11 @@ public class PacientesSituacaoCriticaTest {
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
-        float percentage_criticos=gerenciador.pacientesEmSituacaoCritica();
+        float percentagemCriticos=gerenciador.pacientesEmSituacaoCritica();
 
-        float expectedPercentage = (1 * 100) / 2;
+        float expectedPercentage = (float) (100) / 2;
 
-        assertEquals(expectedPercentage, percentage_criticos);
+        assertEquals(expectedPercentage, percentagemCriticos);
     }
 }
 
