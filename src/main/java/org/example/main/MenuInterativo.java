@@ -5,7 +5,6 @@ import org.example.model.*;
 import org.example.service.MenuGerenciador;
 import org.example.service.SistemaMonitorizacao;
 import org.example.utils.Classificador;
-
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -19,7 +18,6 @@ public class MenuInterativo {
     private FrequenciaCardiacaArray frequenciaCardiaca;
     private SaturacaoDeOxigenioArray saturacaoOxigenio;
     private TemperaturaArray temp;
-
 
     /**
      * Construtor que inicializa o scanner e o gerenciador de menu
@@ -128,7 +126,6 @@ public class MenuInterativo {
         }
         return opcao;
     }
-
 
     /**
      * Este método permite adicionar uma medição de frequência cardíaca, saturação de oxigénio e temperatura,
@@ -293,189 +290,186 @@ public class MenuInterativo {
         System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "Temperatura: " + temperatura + " - " + "Gráfico de Barras: " + asteriscosTMP);
     }
 
+    /**
+     * O método solicita inputs do utilizador, que são armazenados em diferentes variáveis.
+     * De seguida é criado um objeto do tipo paciente, passando por parâmetro os dados presentes nas variáveis para o construtor da classe paciente.
+     * Este objeto é adicionado ao arrayList pessoas através do método adicionarPessoas que se encontra na classe SistemaMonitorizacao.
+     * Por fim, é exibida uma mensagem de confirmação e é chamado o método menu para que o utilizador possa realizar outras operações.
+     */
+    private void adicionarPaciente() {
+        System.out.print("Nome: ");
+        String nome = scanner.next();
 
-/**
- * O método solicita inputs do utilizador, que são armazenados em diferentes variáveis.
- * De seguida é criado um objeto do tipo paciente, passando por parâmetro os dados presentes nas variáveis para o construtor da classe paciente.
- * Este objeto é adicionado ao arrayList pessoas através do método adicionarPessoas que se encontra na classe SistemaMonitorizacao.
- * Por fim, é exibida uma mensagem de confirmação e é chamado o método menu para que o utilizador possa realizar outras operações.
- */
-private void adicionarPaciente() {
-    System.out.print("Nome: ");
-    String nome = scanner.next();
+        System.out.print("Data de Nascimento (aaaa/mm/dd): ");
+        String dataNascimento = scanner.next();
 
-    System.out.print("Data de Nascimento (aaaa/mm/dd): ");
-    String dataNascimento = scanner.next();
+        System.out.print("Altura (cm): ");
+        int altura = scanner.nextInt();
 
-    System.out.print("Altura (cm): ");
-    int altura = scanner.nextInt();
+        System.out.print("Peso (kg): ");
+        int peso = scanner.nextInt();
 
-    System.out.print("Peso (kg): ");
-    int peso = scanner.nextInt();
-
-    gerenciador.adicionarPaciente(nome, dataNascimento, altura, peso);
-    System.out.println("Paciente adicionado com sucesso!");
-}
-
-/**
- * Este método funciona da mesma forma que o método adicionarPaciente
- */
-private void adicionarTecnico() {
-    System.out.print("Nome: ");
-    String nomeTecnico = scanner.next();
-
-    System.out.print("Data de Nascimento (aaaa/mm/dd): ");
-    String dataNascimentoTecnico = scanner.next();
-
-    System.out.print("Categoria Profissional: ");
-    String categoriaProfissional = scanner.next();
-
-    gerenciador.adicionarTecnico(nomeTecnico, dataNascimentoTecnico, categoriaProfissional);
-    System.out.println("Técnico adicionado com sucesso!");
-}
-/**
- * Este método permite calcular medidas estatísticas para pacientes com base em suas informações vitais,
- * como frequência cardíaca, saturação de oxigênio e temperatura.
- */
-private void calcularEstatisticas() {
-    MenuInterativoEstatisticas.calcularEstatisticas(scanner, gerenciador);
-}
-
-
-
-/**
- * Este método mostra informações sobre os técnicos armazenados na lista que é devolvida pelo método
- * getTecnicosDeSaude presente na classe SistemaMonitorização
- * Se não houver nenhum técnico registrado (size() == 0), o programa exibe a mensagem:"Não há técnicos registados."
- * Caso contrário, o método percorre todos os técnicos presentes na lista e exibe o seu nome e categoria profissional
- */
-private void mostrarTecnicos() {
-    ArrayList<TecnicoDeSaude> tecnicos = gerenciador.getTecnicosDeSaude();
-    if (tecnicos.isEmpty()) {
-        System.out.println("\nNão há técnicos registados.");
-    } else {
-        System.out.println("\n=== Técnicos de Saúde ===");
-        for (TecnicoDeSaude tecnico : tecnicos) {
-            System.out.println(" Nome: " + tecnico.getNome() + " - Categoria Profissional: " + tecnico.getCategoriaProfissional());
-        }
-    }
-}
-
-/**
- * Este método funciona de igual forma ao método mostrarTecnicos
- */
-private void mostrarPacientes() {
-    ArrayList<Paciente> pacientes = gerenciador.getPacientes();
-    if (pacientes.isEmpty()) {
-        System.out.println("\nNão há pacientes registados.");
-    } else {
-        System.out.println("\n=== Pacientes ===");
-        for (Paciente paciente : pacientes) {
-            System.out.println(" Nome: " + paciente.getNome() + " - Data de Nascimento: " + paciente.getDataNascimento().toString());
-        }
-    }
-}
-
-/**
- * O método tem como objetivo exibir informações pessoais e o estado atual de um paciente específico.
- * Através do nome introduzido pelo utilizador, o método encontrarPaciente da classe SistemaMonitorizacao devolve o paciente.
- * Por fim, são exibidas as informações do paciente através da chamada dos respetivos métodos presentes na classe paciente.
- */
-private void estadoPaciente() {
-    System.out.println("Selecione a opção: ");
-    System.out.println("1 - Um ou mais pacientes");
-    System.out.println("2 - Todos os pacientes");
-    System.out.println("3 - Voltar para o menu");
-    int escolha = lerOpcao(1, 3);
-
-    if (escolha == 3) {
-        System.out.println("A voltar para o menu...");
-        return;
+        gerenciador.adicionarPaciente(nome, dataNascimento, altura, peso);
+        System.out.println("Paciente adicionado com sucesso!");
     }
 
-    switch (escolha) {
-        case 1:
-            mostrarEstadoPacientesEspecificos();
-            break;
-        case 2:
-            mostrarEstadoTodosPacientes();
-            break;
+    /**
+     * Este método funciona da mesma forma que o método adicionarPaciente
+     */
+    private void adicionarTecnico() {
+        System.out.print("Nome: ");
+        String nomeTecnico = scanner.next();
+
+        System.out.print("Data de Nascimento (aaaa/mm/dd): ");
+        String dataNascimentoTecnico = scanner.next();
+
+        System.out.print("Categoria Profissional: ");
+        String categoriaProfissional = scanner.next();
+
+        gerenciador.adicionarTecnico(nomeTecnico, dataNascimentoTecnico, categoriaProfissional);
+        System.out.println("Técnico adicionado com sucesso!");
     }
-}
+    /**
+     * Este método permite calcular medidas estatísticas para pacientes com base em suas informações vitais,
+     * como frequência cardíaca, saturação de oxigênio e temperatura.
+     */
+    private void calcularEstatisticas() {
+        MenuInterativoEstatisticas.calcularEstatisticas(scanner, gerenciador);
+    }
 
-/**
- * Mostra o estado de pacientes específicos selecionados pelo usuário
- */
-private void mostrarEstadoPacientesEspecificos() {
-    ArrayList<Paciente> pacientes = new ArrayList<>();
-    String nomePaciente = "-1";
-
-    while (!nomePaciente.equals("0")) {
-        System.out.println("Insira o nome do paciente (0 para continuar): ");
-        nomePaciente = scanner.next();
-
-        if (nomePaciente.equals("0")) {
-            break;
-        }
-
-        Paciente paciente = gerenciador.encontrarPaciente(nomePaciente);
-        if (paciente != null) {
-            pacientes.add(paciente);
+    /**
+     * Este método mostra informações sobre os técnicos armazenados na lista que é devolvida pelo método
+     * getTecnicosDeSaude presente na classe SistemaMonitorização
+     * Se não houver nenhum técnico registrado (size() == 0), o programa exibe a mensagem:"Não há técnicos registados."
+     * Caso contrário, o método percorre todos os técnicos presentes na lista e exibe o seu nome e categoria profissional
+     */
+    private void mostrarTecnicos() {
+        ArrayList<TecnicoDeSaude> tecnicos = gerenciador.getTecnicosDeSaude();
+        if (tecnicos.isEmpty()) {
+            System.out.println("\nNão há técnicos registados.");
         } else {
-            System.out.println("Paciente não encontrado!");
+            System.out.println("\n=== Técnicos de Saúde ===");
+            for (TecnicoDeSaude tecnico : tecnicos) {
+                System.out.println(" Nome: " + tecnico.getNome() + " - Categoria Profissional: " + tecnico.getCategoriaProfissional());
+            }
         }
     }
 
-    for (Paciente paciente : pacientes) {
-        mostrarEstadoPaciente(paciente);
+    /**
+     * Este método funciona de igual forma ao método mostrarTecnicos
+     */
+    private void mostrarPacientes() {
+        ArrayList<Paciente> pacientes = gerenciador.getPacientes();
+        if (pacientes.isEmpty()) {
+            System.out.println("\nNão há pacientes registados.");
+        } else {
+            System.out.println("\n=== Pacientes ===");
+            for (Paciente paciente : pacientes) {
+                System.out.println(" Nome: " + paciente.getNome() + " - Data de Nascimento: " + paciente.getDataNascimento().toString());
+            }
+        }
     }
 
-    if (!pacientes.isEmpty()) {
-        Paciente pacienteMaisGrave = Classificador.pacienteEmMaiorRisco(pacientes);
-        System.out.println("Paciente mais grave é: " + pacienteMaisGrave.getNome());
+    /**
+     * O método tem como objetivo exibir informações pessoais e o estado atual de um paciente específico.
+     * Através do nome introduzido pelo utilizador, o método encontrarPaciente da classe SistemaMonitorizacao devolve o paciente.
+     * Por fim, são exibidas as informações do paciente através da chamada dos respetivos métodos presentes na classe paciente.
+     */
+    private void estadoPaciente() {
+        System.out.println("Selecione a opção: ");
+        System.out.println("1 - Um ou mais pacientes");
+        System.out.println("2 - Todos os pacientes");
+        System.out.println("3 - Voltar para o menu");
+        int escolha = lerOpcao(1, 3);
+
+        if (escolha == 3) {
+            System.out.println("A voltar para o menu...");
+            return;
+        }
+
+        switch (escolha) {
+            case 1:
+                mostrarEstadoPacientesEspecificos();
+                break;
+            case 2:
+                mostrarEstadoTodosPacientes();
+                break;
+        }
     }
-}
 
-/**
- * Mostra o estado de todos os pacientes
- */
-private void mostrarEstadoTodosPacientes() {
-    ArrayList<Paciente> pacientes = gerenciador.getPacientes();
+    /**
+     * Mostra o estado de pacientes específicos selecionados pelo usuário
+     */
+    private void mostrarEstadoPacientesEspecificos() {
+        ArrayList<Paciente> pacientes = new ArrayList<>();
+        String nomePaciente = "-1";
 
-    if (pacientes.isEmpty()) {
-        System.out.println("Não há pacientes registrados!");
-        return;
+        while (!nomePaciente.equals("0")) {
+            System.out.println("Insira o nome do paciente (0 para continuar): ");
+            nomePaciente = scanner.next();
+
+            if (nomePaciente.equals("0")) {
+                break;
+            }
+
+            Paciente paciente = gerenciador.encontrarPaciente(nomePaciente);
+            if (paciente != null) {
+                pacientes.add(paciente);
+            } else {
+                System.out.println("Paciente não encontrado!");
+            }
+        }
+
+        for (Paciente paciente : pacientes) {
+            mostrarEstadoPaciente(paciente);
+        }
+
+        if (!pacientes.isEmpty()) {
+            Paciente pacienteMaisGrave = Classificador.pacienteEmMaiorRisco(pacientes);
+            System.out.println("Paciente mais grave é: " + pacienteMaisGrave.getNome());
+        }
     }
 
-    for (Paciente paciente : pacientes) {
-        mostrarEstadoPaciente(paciente);
-    }
-    if (!pacientes.isEmpty()) {
-        Paciente pacienteMaisGrave = Classificador.pacienteEmMaiorRisco(pacientes);
-        System.out.println("Paciente mais grave é: " + pacienteMaisGrave.getNome());
-    }
-}
+    /**
+     * Mostra o estado de todos os pacientes
+     */
+    private void mostrarEstadoTodosPacientes() {
+        ArrayList<Paciente> pacientes = gerenciador.getPacientes();
 
-/**
- * Mostra o estado de um paciente específico
- * @param paciente paciente a ser analisado
- */
-private void mostrarEstadoPaciente(Paciente paciente) {
-    System.out.println("\n=== Estado do Paciente ===");
-    System.out.println("Nome: " + paciente.getNome());
-    System.out.println("Data de Nascimento: " + paciente.getDataNascimento().toString());
-    System.out.println("Estado do Paciente: " + paciente.classificarPaciente());
-    System.out.println("Score de gravidade: " + Classificador.ScorePaciente(paciente));
-    System.out.println("Classificação de score: " + Classificador.classificarGravidade(paciente));
-    System.out.println("==============================");
-}
+        if (pacientes.isEmpty()) {
+            System.out.println("Não há pacientes registrados!");
+            return;
+        }
 
-/**
- * Este método tem como objetivo a criação de diferentes objetos para realizar o teste do programa
- */
-public void createTestObjects() {
-    gerenciador.createTestObjects();
-}
+        for (Paciente paciente : pacientes) {
+            mostrarEstadoPaciente(paciente);
+        }
+        if (!pacientes.isEmpty()) {
+            Paciente pacienteMaisGrave = Classificador.pacienteEmMaiorRisco(pacientes);
+            System.out.println("Paciente mais grave é: " + pacienteMaisGrave.getNome());
+        }
+    }
+
+    /**
+     * Mostra o estado de um paciente específico
+     * @param paciente paciente a ser analisado
+     */
+    private void mostrarEstadoPaciente(Paciente paciente) {
+        System.out.println("\n=== Estado do Paciente ===");
+        System.out.println("Nome: " + paciente.getNome());
+        System.out.println("Data de Nascimento: " + paciente.getDataNascimento().toString());
+        System.out.println("Estado do Paciente: " + paciente.classificarPaciente());
+        System.out.println("Score de gravidade: " + Classificador.ScorePaciente(paciente));
+        System.out.println("Classificação de score: " + Classificador.classificarGravidade(paciente));
+        System.out.println("==============================");
+    }
+
+    /**
+     * Este método tem como objetivo a criação de diferentes objetos para realizar o teste do programa
+     */
+    public void createTestObjects() {
+        gerenciador.createTestObjects();
+    }
 
     /**
      * Este método pede ao utilizador uma percentagem válida e faz uma alteracao subita percentual das suas últimas medicoes

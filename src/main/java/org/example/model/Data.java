@@ -5,7 +5,6 @@ public class Data {
 
     /**
      * Construtor da classe Data
-     *
      * @param value
      */
     public Data(int value) {

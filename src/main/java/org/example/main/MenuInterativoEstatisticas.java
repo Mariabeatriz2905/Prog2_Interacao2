@@ -4,7 +4,6 @@ import org.example.model.Data;
 import org.example.service.EstatisticasCalculador;
 import org.example.service.MenuGerenciador;
 import org.example.model.Paciente;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -211,7 +210,7 @@ public class MenuInterativoEstatisticas {
                 break;
         }
         System.out.println(nomeEstatistica + " da Saturação de Oxigênio: " + valorO2);
-        
+
         // Temperatura
         double valorTemp = 0;
         switch (tipoEstatistica) {

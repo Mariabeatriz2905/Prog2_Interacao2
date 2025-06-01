@@ -155,6 +155,9 @@ public class TemperaturaArray extends SinaisVitaisArray implements Serializable{
         else return 5;
     }
 
+    /**
+     * Método guarda os dados da temperatura num ficheiro binário chamado "dadosTemperatura.ser" utilizando a serialização.
+     */
     public void salvarDados() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("dadosTemperatura.ser"))) {
             out.writeObject(this.medicao);
@@ -166,6 +169,9 @@ public class TemperaturaArray extends SinaisVitaisArray implements Serializable{
         }
     }
 
+    /**
+     * Método carrega os dados presentes no ficheiro "dadosTemperatura.ser utilizando a deserialização
+     */
     public void carregarDados() {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("dadosTemperatura.ser"))) {
             this.medicao = (ArrayList<Double>) in.readObject();

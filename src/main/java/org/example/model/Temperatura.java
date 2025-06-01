@@ -109,6 +109,9 @@ public class Temperatura implements SinalVital {
     }
 
     @Override
+    /**
+     * Para cada intervalo de temperatura é atribuida uma pontuação de 1 a 5, sendo 1 correspondente a valores normais de temperatura e 5 valores de maior gravidade.
+     */
     public double getScore() {
         double temp = medicao;
         if (temp >= 36.0 && temp <= 37.5) return 1;

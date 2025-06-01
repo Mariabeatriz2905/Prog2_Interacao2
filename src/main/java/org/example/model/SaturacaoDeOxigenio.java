@@ -109,6 +109,9 @@ public class SaturacaoDeOxigenio implements SinalVital {
     }
 
     @Override
+    /**
+     * Para cada intervalo de saturação de oxigénio é atribuida uma pontuação de 1 a 5, sendo 1 correspondente a valores normais de saturação e 5 valores de maior gravidade.
+     */
     public double getScore() {
         int spo2 = medicao;
         if (spo2 >= 95) return 1;

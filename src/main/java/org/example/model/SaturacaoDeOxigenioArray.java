@@ -142,6 +142,9 @@ public class SaturacaoDeOxigenioArray extends SinaisVitaisArray implements Seria
     }
 
     @Override
+    /**
+     * Para cada intervalo de saturação de oxigénio é atribuida uma pontuação de 1 a 5, sendo 1 correspondente a valores normais de saturação e 5 valores de maior gravidade.
+     */
     public double getScore() {
         if (medicao.isEmpty()) {
             return 0;
@@ -155,6 +158,9 @@ public class SaturacaoDeOxigenioArray extends SinaisVitaisArray implements Seria
         else return 5;
     }
 
+    /**
+     * Método guarda os dados da saturação de oxigénio num ficheiro binário chamado "dadosSaturacaoOxigenio.ser" utilizando a serialização.
+     */
     public void salvarDados() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("dadosSaturacaoOxigenio.ser"))) {
             out.writeObject(this.medicao);
@@ -166,6 +172,9 @@ public class SaturacaoDeOxigenioArray extends SinaisVitaisArray implements Seria
         }
     }
 
+    /**
+     * Método carrega os dados presentes no ficheiro "dadosSaturacaoOxigenio.ser utilizando a deserialização
+     */
     public void carregarDados() {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("dadosSaturacaoOxigenio.ser"))) {
             this.medicao = (ArrayList<Integer>) in.readObject();

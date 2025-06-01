@@ -7,7 +7,6 @@ public abstract class Pessoa {
     private String nome;
     private Data dataNascimento;
 
-
     /**
      * Construtor completo da classe pessoa
      *

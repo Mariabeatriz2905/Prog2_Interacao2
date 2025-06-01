@@ -2,7 +2,6 @@ package org.example.service;
 
 import org.example.model.Data;
 import org.example.model.Paciente;
-
 import java.util.ArrayList;
 
 /**

@@ -155,6 +155,9 @@ public class FrequenciaCardiacaArray extends SinaisVitaisArray implements Serial
         else return 5;
     }
 
+    /**
+     * Método guarda os dados da frequência cardíaca num ficheiro binário chamado "dadosFrequenciaCardiaca.ser" utilizando a serialização.
+     */
     public void salvarDados() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("dadosFrequenciaCardiaca.ser"))) {
             out.writeObject(this.medicao);
@@ -166,6 +169,9 @@ public class FrequenciaCardiacaArray extends SinaisVitaisArray implements Serial
         }
     }
 
+    /**
+     * Método carrega os dados presentes no ficheiro "dadosFrequenciaCardiaca.ser utilizando a deserialização
+     */
     public void carregarDados() {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("dadosFrequenciaCardiaca.ser"))) {
             this.medicao = (ArrayList<Integer>) in.readObject();

@@ -1,9 +1,6 @@
 package org.example.io;
-
 import org.example.model.*;
 import org.example.service.SistemaMonitorizacao;
-
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -39,7 +36,6 @@ public class LeitorFicheiros {
             }
     }
 
-
     public static void lerTecnicos(){
             String caminhoDoFicheiro = "tecnicos.txt";
 
@@ -64,7 +60,6 @@ public class LeitorFicheiros {
                 System.out.println("Erro ao ler o ficheiro: " + e.getMessage());
             }
     }
-
 
     public static void lerMedicao() {
         String caminhoDoFicheiro = "adicionarmedicao.txt";

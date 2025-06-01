@@ -109,6 +109,9 @@ public class FrequenciaCardiaca implements SinalVital {
     }
 
     @Override
+    /**
+     * Para cada intervalo de frequência cardíaca é atribuida uma pontuação de 1 a 5, sendo 1 correspondente a valores normais de frequência cardíaca e 5 valores de maior gravidade.
+     */
     public double getScore() {
         int fc = medicao;
         if (fc >= 60 && fc <= 100) return 1;
