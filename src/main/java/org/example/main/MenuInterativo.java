@@ -192,6 +192,12 @@ public class MenuInterativo {
         graficoBPM( bpm, nomePaciente, nomeTecnico);
     }
 
+    /**
+     * Cria um gráfico de asteriscos de acordo com a gravidade do valor de bpm inserido. Se bpm fizer parte da categoria "Normal" o gráfico apresenta 3 asteriscos; se for "atenção" apresenta 6 e "crítico" apresenta 9
+     * @param bpm valor da frequência cardíaca
+     * @param nomePaciente nome do paciente
+     * @param nomeTecnico nome do técnico que realizou a medição
+     */
     private void graficoBPM(int bpm, String nomePaciente, String nomeTecnico){
         String asteriscosBPM;
         if (bpm >= 60 && bpm <= 100) {
@@ -203,7 +209,7 @@ public class MenuInterativo {
                 asteriscosBPM = "*********";
             }
         }
-        System.out.println("\n Nome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "BPM: " + bpm + "Gráfico de Barras: " + asteriscosBPM);
+        System.out.println("\n Nome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "BPM: " + bpm + " - " + "Gráfico de Barras: " + asteriscosBPM);
     }
 
     /**
@@ -228,6 +234,12 @@ public class MenuInterativo {
         graficoSO( saturacao, nomePaciente, nomeTecnico);
     }
 
+    /**
+     * Cria um gráfico de asteriscos de acordo com a gravidade do valor de saturação de oxigénio inserido. Se a saturação de oxigénio fizer parte da categoria "Normal" o gráfico apresenta 3 asteriscos; se for "atenção" apresenta 6 e "crítico" apresenta 9
+     * @param saturacao valor da saturação de oxigénio
+     * @param nomePaciente nome do paciente
+     * @param nomeTecnico nome do técnico que realizou a medição
+     */
     private void graficoSO(int saturacao, String nomePaciente, String nomeTecnico){
 
         String asteriscosSO;
@@ -240,9 +252,8 @@ public class MenuInterativo {
                 asteriscosSO = "*********";
             }
         }
-        System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "S02: " + saturacao + "Gráfico de Barras: " + asteriscosSO);
+        System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "S02: " + saturacao + " - " + "Gráfico de Barras: " + asteriscosSO);
     }
-
 
     /**
      * Adiciona uma medição de temperatura
@@ -261,6 +272,12 @@ public class MenuInterativo {
         graficoTEMP( temperatura, nomePaciente, nomeTecnico);
     }
 
+    /**
+     * Cria um gráfico de asteriscos de acordo com a gravidade do valor de temperatura inserido. Se a temperatura fizer parte da categoria "Normal" o gráfico apresenta 3 asteriscos; se for "atenção" apresenta 6 e "crítico" apresenta 9
+     * @param temperatura valor da temperatura
+     * @param nomePaciente nome do paciente
+     * @param nomeTecnico nome do técnico que realizou a medição
+     */
     private void graficoTEMP(double temperatura, String nomePaciente, String nomeTecnico){
 
         String asteriscosTMP;
@@ -273,7 +290,7 @@ public class MenuInterativo {
                 asteriscosTMP = "*********";
             }
         }
-        System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "Temperatura: " + temperatura + "Gráfico de Barras: " + asteriscosTMP);
+        System.out.println(" \nNome: " + nomePaciente + " - " + "Tecnico Responsável: " + nomeTecnico + " - " + "Temperatura: " + temperatura + " - " + "Gráfico de Barras: " + asteriscosTMP);
     }
 
 
