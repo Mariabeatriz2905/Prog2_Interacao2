@@ -504,7 +504,7 @@ public class MenuInterativo {
         System.out.println("Que dados é que pretende visualizar no ecrã: ");
         System.out.println("1. Lista de pacientes");
         System.out.println("2. Lista de técnicos");
-        System.out.println("3. Lista de mediões efetuadas");
+        System.out.println("3. Lista de medições efetuadas");
         int escolha = lerOpcao(1, 3);
 
         switch (escolha) {

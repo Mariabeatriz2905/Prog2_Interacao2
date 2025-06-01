@@ -1,0 +1,3 @@
+"Maria"; "1995/05/19"; "Enfermeira"
+"José"; "1989/06/23"; "Médico"
+"Mário"; "1978/03/06"; "Enfermeiro"

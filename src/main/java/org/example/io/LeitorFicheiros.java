@@ -17,10 +17,10 @@ public class LeitorFicheiros {
                 while ((linha = br.readLine()) != null) {
                     String[] dados = linha.split(";");
 
-                    String nome = dados[0];
-                    String dataNascimento = dados[1];
-                    int altura = Integer.parseInt(dados[2]);
-                    int peso = Integer.parseInt(dados[3]);
+                    String nome = dados[0].replaceAll("\"", "");;
+                    String dataNascimento = dados[1].trim().replaceAll("\"", "");
+                    int altura = Integer.parseInt(dados[2].trim().replaceAll("\"", ""));
+                    int peso = Integer.parseInt(dados[3].trim().replaceAll("\"", ""));
 
                     System.out.println("Nome: " + nome);
                     System.out.println("Data de nascimento: " + dataNascimento);
@@ -44,9 +44,9 @@ public class LeitorFicheiros {
                 while ((linha = br.readLine()) != null) {
                     String[] dados = linha.split(";");
 
-                    String nome = dados[0];
-                    String dataNascimento = dados[1];
-                    String categoriaProfissional = dados[2];
+                    String nome = dados[0].replaceAll("\"", "");;
+                    String dataNascimento = dados[1].trim().replaceAll("\"", "");;
+                    String categoriaProfissional = dados[2].replaceAll("\"", "");;
 
                     System.out.println("Nome do técnico: " + nome);
                     System.out.println("Data de nascimento: " + dataNascimento);
@@ -69,28 +69,28 @@ public class LeitorFicheiros {
             while ((linha = br.readLine()) != null) {
                 String[] dados = linha.split(";");
 
-                int escolha = Integer.parseInt(dados[0]);
-                String nomeTecnico = dados[1];
+                int escolha = Integer.parseInt(dados[0].trim().replaceAll("\"", ""));
+                String nomeTecnico = dados[1].replaceAll("\"", "");;
                 TecnicoDeSaude tecnico = sistema.encontrarTecnico(nomeTecnico);
-                String nomePaciente = dados[2];
-                String dataColheita = dados[3];
+                String nomePaciente = dados[2].replaceAll("\"", "");;
+                String dataColheita = dados[3].trim().replaceAll("\"", "");;
 
                 String tipoSinalVital;
                 int valorFormatado = 0;
                 switch (escolha) {
                     case 1:
                         tipoSinalVital = "Frequência Cardíaca (FC)";
-                        valorFormatado = Integer.parseInt(dados[4]);
+                        valorFormatado = Integer.parseInt(dados[4].trim().replaceAll("\"", ""));
                         FrequenciaCardiaca fq = new FrequenciaCardiaca(valorFormatado, dataColheita, tecnico);
                         break;
                     case 2:
                         tipoSinalVital = "Saturação de Oxigénio";
-                        valorFormatado = Integer.parseInt(dados[4]);
+                        valorFormatado = Integer.parseInt(dados[4].trim().replaceAll("\"", ""));
                         SaturacaoDeOxigenio so = new SaturacaoDeOxigenio(valorFormatado, dataColheita, tecnico);
                         break;
                     case 3:
                         tipoSinalVital = "Temperatura";
-                        valorFormatado = Integer.parseInt(dados[4]);
+                        valorFormatado = Integer.parseInt(dados[4].trim().replaceAll("\"", ""));
                         Temperatura tmp = new Temperatura(valorFormatado, dataColheita, tecnico);
                         break;
                     default:
