@@ -9,12 +9,6 @@ public interface SinalVital {
      * Retorna a última medição do sinal vital
      * @return String representando a última medição
      */
-    public String ultimaMedicao();
-    
-    /**
-     * Retorna a classificação do sinal vital
-     * @return String representando a classificação (Normal, Atenção, Crítico, etc.)
-     */
     public String classificacao();
     
     /**
