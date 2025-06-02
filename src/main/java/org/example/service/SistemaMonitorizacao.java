@@ -6,6 +6,11 @@ import org.example.model.TecnicoDeSaude;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * Classe responsável por armazenar os dados principais do sistema de monitorização.
+ * Gere listas de pacientes e técnicos, permitindo adicionar, procurar e atualizar dados.
+ * Calcula ainda a percentagem de pacientes em estado crítico.
+ */
 public class SistemaMonitorizacao {
     private ArrayList<Paciente> pacientes;
     private ArrayList<TecnicoDeSaude> tecnicos;
