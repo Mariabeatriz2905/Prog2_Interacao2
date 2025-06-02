@@ -80,7 +80,7 @@ public class MenuInterativo {
                     ficheirosTexto();
                     break;
             }
-        } while (escolha != 10);
+        } while (escolha != 11);
     }
 
     /**
