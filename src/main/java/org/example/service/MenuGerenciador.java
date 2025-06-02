@@ -5,7 +5,6 @@ import org.example.model.TecnicoDeSaude;
 
 /**
  * Classe responsável por gerenciar as operações do menu
- * Esta classe foi criada para separar a lógica de negócio da interface com o usuário
  */
 public class MenuGerenciador {
     private SistemaMonitorizacao sistema;
