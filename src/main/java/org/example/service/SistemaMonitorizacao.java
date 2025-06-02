@@ -93,7 +93,6 @@ public class SistemaMonitorizacao {
             if (t.getNome().equals(nome)){
                 return t;
             }
-
         }
         return null;
     }

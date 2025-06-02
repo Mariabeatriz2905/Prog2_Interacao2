@@ -172,7 +172,7 @@ public class MenuInterativo {
      */
     private void adicionarFrequenciaCardiaca(Paciente paciente, TecnicoDeSaude tecnico, String dataColheita, String nomePaciente, String nomeTecnico) {
         System.out.print("Insira bpm: ");
-        int bpm = -1;
+        int bpm;
         while (true) {
             try {
                 bpm = scanner.nextInt();
@@ -214,7 +214,7 @@ public class MenuInterativo {
      */
     private void adicionarSaturacaoOxigenio(Paciente paciente, TecnicoDeSaude tecnico, String dataColheita, String nomePaciente, String nomeTecnico) {
         System.out.print("Insira saturaçao de oxigenio: ");
-        int saturacao = -1;
+        int saturacao;
         while (true) {
             try {
                 saturacao = scanner.nextInt();
